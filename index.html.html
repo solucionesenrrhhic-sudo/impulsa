@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impulsá N.A. · Soluciones IC</title>
+<style>
+:root {
+  --rosa: #8B3A52;
+  --rosa-dark: #6B2A3E;
+  --rosa-light: #C97A94;
+  --cream: #F9EDE8;
+  --cream-dark: #F2D9D0;
+  --cream-mid: #FCF0EC;
+  --dorado: #C9A155;
+  --white: #FFFFFF;
+  --border: #E8C9D0;
+  --brown: #1A0A10;
+  --brown-mid: #8B3A52;
+  --brown-light: #B07080;
+  --danger: #C0392B;
+  --success: #27AE60;
+  --shadow: 0 2px 12px rgba(139,58,82,0.10);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--cream); color: var(--brown); min-height: 100vh; padding-bottom: 80px; }
+
+/* HEADER */
+.app-header {
+  background: linear-gradient(135deg, var(--rosa) 0%, var(--rosa-dark) 100%);
+  padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(139,58,82,0.20);
+}
+.header-brand { display: flex; align-items: center; gap: 10px; }
+.header-logo {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,0.22); border: 1.5px solid rgba(255,255,255,0.45);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.header-logo span { font-size: 14px; font-weight: 800; color: white; letter-spacing: -0.5px; }
+.header-text h1 { font-size: 17px; font-weight: 700; color: white; letter-spacing: 0.3px; }
+.header-text p { font-size: 10px; color: rgba(255,255,255,0.80); letter-spacing: 0.8px; text-transform: uppercase; }
+.header-date { background: rgba(255,255,255,0.18); color: white; font-size: 11px; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.3); white-space: nowrap; }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--white); border-top: 1px solid var(--border);
+  display: flex; z-index: 100;
+  box-shadow: 0 -2px 12px rgba(139,58,82,0.08);
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  padding: 9px 4px 7px; cursor: pointer; border: none; background: none;
+  color: var(--brown-light); font-size: 9px; gap: 3px; transition: all 0.15s;
+}
+.nav-item.active { color: var(--rosa); }
+.nav-item svg { width: 21px; height: 21px; }
+
+/* PAGES */
+.page { display: none; padding: 18px; max-width: 700px; margin: 0 auto; }
+.page.active { display: block; }
+
+/* CARDS */
+.card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 14px; box-shadow: var(--shadow); }
+.card-title { font-size: 11px; font-weight: 700; color: var(--rosa-dark); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+/* STATS */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.stat-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
+.stat-label { font-size: 10px; color: var(--brown-light); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; }
+.stat-value { font-size: 20px; font-weight: 700; color: var(--brown); }
+.stat-value.rosa { color: var(--rosa); }
+.stat-sub { font-size: 10px; color: var(--brown-light); margin-top: 3px; }
+
+.welcome-card { background: linear-gradient(135deg, var(--rosa) 0%, var(--rosa-dark) 100%); border-radius: var(--radius); padding: 18px; color: white; margin-bottom: 16px; }
+.welcome-card h2 { font-size: 18px; font-weight: 600; margin-bottom: 3px; }
+.welcome-card p { font-size: 12px; opacity: 0.88; }
+
+/* FORMS */
+.form-group { margin-bottom: 12px; }
+.form-label { font-size: 11px; font-weight: 600; color: var(--rosa-dark); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-input { width: 100%; padding: 10px 13px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; background: var(--cream); color: var(--brown); outline: none; transition: border-color 0.15s; }
+.form-input:focus { border-color: var(--rosa); background: white; }
+.form-select { width: 100%; padding: 10px 13px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; background: var(--cream); color: var(--brown); outline: none; cursor: pointer; }
+.form-select:focus { border-color: var(--rosa); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* BUTTONS */
+.btn { padding: 10px 18px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; }
+.btn-primary { background: var(--rosa); color: white; }
+.btn-primary:hover { background: var(--rosa-dark); }
+.btn-danger { background: var(--danger); color: white; padding: 5px 10px; font-size: 11px; width: auto; border-radius: 6px; }
+.btn-success { background: var(--success); color: white; }
+
+/* LIST ITEMS */
+.list-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.list-item:last-child { border-bottom: none; padding-bottom: 0; }
+.list-item-info h3 { font-size: 13px; font-weight: 600; color: var(--brown); margin-bottom: 2px; }
+.list-item-info p { font-size: 11px; color: var(--brown-light); }
+.price-tag { font-size: 15px; font-weight: 700; color: var(--rosa); }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 600; }
+.badge-rosa { background: #F9DDE4; color: var(--rosa-dark); }
+.badge-green { background: #E8F8EF; color: var(--success); }
+.badge-red { background: #FDEDEC; color: var(--danger); }
+.badge-gold { background: #FFF3CC; color: #8B6914; }
+
+/* VENTAS — SELECTOR */
+.product-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.product-btn { background: var(--cream-mid); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px; cursor: pointer; text-align: left; transition: all 0.15s; }
+.product-btn:hover, .product-btn.selected { border-color: var(--rosa); background: #FDE8ED; }
+.product-btn .pname { font-size: 12px; font-weight: 600; color: var(--brown); }
+.product-btn .pprice { font-size: 11px; color: var(--rosa); margin-top: 2px; }
+.product-btn .pstock { font-size: 10px; color: var(--brown-light); margin-top: 1px; }
+
+/* CARRITO */
+.cart-item { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.cart-item:last-child { border-bottom: none; }
+.qty-control { display: flex; align-items: center; gap: 8px; }
+.qty-btn { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); background: var(--cream); font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--rosa); }
+.qty-num { font-size: 13px; font-weight: 600; min-width: 18px; text-align: center; }
+
+/* AGENDA */
+.agenda-day { background: var(--rosa); color: white; border-radius: var(--radius-sm); padding: 8px 14px; margin-bottom: 10px; font-size: 12px; font-weight: 600; }
+.agenda-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.agenda-time { font-size: 11px; color: var(--rosa); font-weight: 600; min-width: 42px; }
+.agenda-text h4 { font-size: 13px; font-weight: 600; color: var(--brown); }
+.agenda-text p { font-size: 11px; color: var(--brown-light); margin-top: 1px; }
+.check-circle { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); cursor: pointer; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.check-circle.done { background: var(--success); border-color: var(--success); }
+
+/* RESUMEN */
+.resumen-bar { background: var(--cream-mid); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+.resumen-bar .rl { font-size: 13px; color: var(--brown-light); }
+.resumen-bar .rv { font-size: 14px; font-weight: 700; }
+.rv.green { color: var(--success); }
+.rv.red { color: var(--danger); }
+.rv.rosa { color: var(--rosa); }
+
+/* CATÁLOGO DIGITAL */
+.cat-header-pub { background: linear-gradient(135deg, var(--rosa) 0%, var(--rosa-dark) 100%); padding: 24px 20px 20px; text-align: center; color: white; border-radius: var(--radius) var(--radius) 0 0; margin-bottom: 16px; }
+.cat-header-pub h2 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.cat-header-pub p { font-size: 12px; opacity: 0.88; margin-bottom: 10px; }
+.wa-link-pub { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; padding: 6px 14px; border-radius: 999px; font-size: 12px; text-decoration: none; }
+.mode-toggle { display: flex; gap: 0; background: var(--cream-dark); border-radius: 999px; padding: 4px; width: fit-content; margin: 0 auto 18px; }
+.mode-btn { padding: 7px 16px; border-radius: 999px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; background: transparent; color: var(--brown-light); transition: all 0.2s; }
+.mode-btn.active { background: var(--rosa); color: white; }
+.cat-search input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; background: white; outline: none; margin-bottom: 12px; }
+.cat-search input:focus { border-color: var(--rosa); }
+.cat-filtros { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 14px; scrollbar-width: none; }
+.cat-filtros::-webkit-scrollbar { display: none; }
+.filtro-btn { padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border); background: white; color: var(--brown-light); font-size: 11px; font-weight: 600; cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: all 0.15s; }
+.filtro-btn.active { background: var(--rosa); color: white; border-color: var(--rosa); }
+.productos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.producto-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: transform 0.15s; }
+.producto-card:hover { transform: translateY(-2px); }
+.producto-foto { width: 100%; aspect-ratio: 1; object-fit: cover; background: var(--cream-dark); display: flex; align-items: center; justify-content: center; font-size: 44px; overflow: hidden; }
+.producto-foto img { width: 100%; height: 100%; object-fit: cover; }
+.producto-info { padding: 10px; }
+.producto-nombre { font-size: 12px; font-weight: 700; color: var(--brown); margin-bottom: 2px; line-height: 1.3; }
+.producto-desc { font-size: 10px; color: var(--brown-light); margin-bottom: 6px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.producto-cat { display: inline-block; background: var(--cream-mid); border: 1px solid var(--border); color: var(--brown-light); font-size: 9px; padding: 2px 7px; border-radius: 999px; margin-bottom: 6px; }
+.producto-precio { font-size: 14px; font-weight: 700; color: var(--rosa); margin-bottom: 8px; }
+.btn-pedir { width: 100%; background: #25D366; color: white; border: none; border-radius: var(--radius-sm); padding: 8px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; text-decoration: none; transition: background 0.15s; }
+.btn-pedir:hover { background: #1da855; }
+
+/* FOTO UPLOAD */
+.foto-upload { border: 2px dashed var(--border); border-radius: var(--radius-sm); padding: 18px; text-align: center; cursor: pointer; background: var(--cream); position: relative; }
+.foto-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.foto-upload p { font-size: 12px; color: var(--brown-light); }
+.foto-preview { width: 70px; height: 70px; border-radius: var(--radius-sm); object-fit: cover; margin: 0 auto 6px; display: block; }
+
+/* SHARE BAR */
+.share-bar { background: var(--cream-dark); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.share-bar p { font-size: 12px; color: var(--brown-light); }
+.share-btn { background: #25D366; color: white; border: none; border-radius: var(--radius-sm); padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+
+/* FOOTER */
+.brand-footer { text-align: center; padding: 24px 20px 8px; }
+.brand-footer-logo { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.brand-footer-logo .logo-circle { width: 28px; height: 28px; border-radius: 50%; background: var(--rosa); display: flex; align-items: center; justify-content: center; }
+.brand-footer-logo .logo-circle span { font-size: 11px; font-weight: 800; color: white; }
+.brand-footer-logo .logo-name { font-size: 13px; font-weight: 600; color: var(--rosa); }
+.brand-footer-data { font-size: 11px; color: var(--brown-light); line-height: 1.8; }
+
+/* EMPTY */
+.empty-state { text-align: center; padding: 32px 20px; color: var(--brown-light); }
+.empty-state p { font-size: 13px; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 88px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--rosa-dark); color: white; padding: 10px 20px; border-radius: 999px; font-size: 13px; opacity: 0; transition: all 0.3s; z-index: 200; white-space: nowrap; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* PANTALLA TRIAL / VENCIDA */
+.screen-overlay { position: fixed; inset: 0; background: var(--cream); z-index: 500; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; text-align: center; }
+.screen-overlay .logo-big { width: 64px; height: 64px; border-radius: 50%; background: var(--rosa); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+.screen-overlay .logo-big span { font-size: 24px; font-weight: 800; color: white; }
+.screen-overlay h2 { font-size: 22px; font-weight: 700; color: var(--brown); margin-bottom: 8px; }
+.screen-overlay p { font-size: 14px; color: var(--brown-light); line-height: 1.6; margin-bottom: 24px; }
+.trial-days { font-size: 56px; font-weight: 800; color: var(--rosa); line-height: 1; margin-bottom: 4px; }
+.trial-label { font-size: 13px; color: var(--brown-light); margin-bottom: 20px; }
+.activation-box { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; width: 100%; max-width: 340px; margin-top: 16px; }
+.activation-box h3 { font-size: 14px; font-weight: 700; color: var(--brown); margin-bottom: 12px; }
+.activation-input { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 20px; text-align: center; letter-spacing: 6px; font-weight: 700; outline: none; text-transform: uppercase; background: var(--cream); color: var(--brown); }
+.activation-input:focus { border-color: var(--rosa); background: white; }
+.btn-activar { width: 100%; background: var(--rosa); color: white; border: none; border-radius: var(--radius-sm); padding: 12px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+.btn-wa-contacto { display: flex; align-items: center; justify-content: center; gap: 8px; background: #25D366; color: white; border: none; border-radius: var(--radius-sm); padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; text-decoration: none; }
+.excel-upload { border: 2px dashed #27AE60; border-radius: var(--radius-sm); padding: 20px; text-align: center; cursor: pointer; background: #F0FFF4; position: relative; margin-bottom: 12px; }
+.excel-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.excel-upload p { font-size: 13px; color: #27AE60; font-weight: 600; }
+.excel-upload span { font-size: 11px; color: var(--brown-light); display: block; margin-top: 4px; }
+.excel-preview { background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 12px; max-height: 200px; overflow-y: auto; }
+.excel-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 6px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 11px; }
+.excel-row:last-child { border-bottom: none; }
+.excel-row .en { color: var(--brown); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.excel-row .ep { color: var(--rosa); font-weight: 700; }
+.excel-row .ec { color: var(--brown-light); }
+
+@media(min-width: 500px) {
+  .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  .product-selector { grid-template-columns: repeat(3, 1fr); }
+  .productos-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* LOGIN MULTIUSUARIO */
+.login-screen { position: fixed; inset: 0; background: linear-gradient(135deg, var(--rosa) 0%, var(--rosa-dark) 100%); z-index: 600; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 24px; }
+.login-logo { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+.login-logo span { font-size: 26px; font-weight: 800; color: white; }
+.login-title { font-size: 24px; font-weight: 700; color: white; margin-bottom: 4px; text-align: center; }
+.login-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 28px; text-align: center; letter-spacing: 1px; text-transform: uppercase; }
+.login-box { background: white; border-radius: var(--radius); padding: 24px; width: 100%; max-width: 340px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+.login-error { font-size: 12px; color: var(--danger); text-align: center; margin-top: 8px; min-height: 18px; }
+.btn-login { width: 100%; background: var(--rosa); color: white; border: none; border-radius: var(--radius-sm); padding: 13px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 14px; transition: background 0.15s; }
+.btn-login:hover { background: var(--rosa-dark); }
+.login-footer { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 20px; text-align: center; }
+.rol-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+.rol-dueno { background: #FFF3CC; color: #8B6914; }
+.rol-vendedor { background: #E8F8EF; color: var(--success); }
+.rol-deposito { background: #EAF0FB; color: #2980B9; }
+.rol-lectura { background: var(--cream-mid); color: var(--brown-light); }
+.usuario-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.usuario-item:last-child { border-bottom: none; }
+.usuario-info h3 { font-size: 14px; font-weight: 600; color: var(--brown); margin-bottom: 3px; }
+.usuario-info p { font-size: 11px; color: var(--brown-light); }
+.header-user { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.header-user-name { font-size: 11px; color: rgba(255,255,255,0.9); font-weight: 600; }
+.header-user-rol { font-size: 9px; color: rgba(255,255,255,0.65); }
+</style>
+</head>
+<body>
+
+<!-- PANTALLA LOGIN -->
+<div class="login-screen" id="screen-login">
+  <div class="login-logo"><span>CI</span></div>
+  <div class="login-title">Impulsá N.A.</div>
+  <div class="login-sub">Soluciones IC · Capital Humano</div>
+  <div class="login-box">
+    <div class="form-group">
+      <label class="form-label">Usuario</label>
+      <input class="form-input" id="login-user" placeholder="Ej: maria" autocomplete="username" onkeydown="if(event.key==='Enter')loginBtn()">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Contraseña</label>
+      <input class="form-input" id="login-pass" type="password" placeholder="••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')loginBtn()">
+    </div>
+    <div class="login-error" id="login-error"></div>
+    <button class="btn-login" onclick="loginBtn()">Ingresar</button>
+  </div>
+  <div class="login-footer">341 247 7797 · @soluciones.ic</div>
+</div>
+
+<!-- PANTALLA TRIAL ACTIVO -->
+<div class="screen-overlay" id="screen-trial" style="display:none;">
+  <div class="logo-big"><span>CI</span></div>
+  <h2>¡Bienvenido/a a Impulsá N.A.!</h2>
+  <p>Soluciones en Capital Humano I.C.<br>Tu período de prueba gratuita está activo</p>
+  <div class="trial-days" id="trial-dias-num">7</div>
+  <div class="trial-label">días restantes de prueba</div>
+  <div class="activation-box">
+    <h3>¿Ya tenés tu código de activación?</h3>
+    <input class="activation-input" id="codigo-input" maxlength="8" placeholder="XXXXXXXX" oninput="this.value=this.value.toUpperCase()">
+    <button class="btn-activar" onclick="activarCodigo()">Activar ahora</button>
+    <a class="btn-wa-contacto" href="https://wa.me/5493412477797?text=Hola%20Cintia!%20Quiero%20activar%20Impuls%C3%A1%20N.A." target="_blank">💬 Contactar a Soluciones IC</a>
+  </div>
+  <button onclick="cerrarTrial()" style="margin-top:16px;background:none;border:none;color:var(--brown-light);font-size:13px;cursor:pointer;text-decoration:underline;">Continuar con prueba gratuita →</button>
+</div>
+
+<!-- PANTALLA VENCIDA -->
+<div class="screen-overlay" id="screen-vencida" style="display:none;">
+  <div class="logo-big"><span>CI</span></div>
+  <h2>Tu prueba gratuita venció</h2>
+  <p>Tus datos están guardados y seguros.<br>Activá tu plan para seguir usando Impulsá N.A. sin perder nada.</p>
+  <div class="activation-box">
+    <h3>Ingresá tu código de activación</h3>
+    <input class="activation-input" id="codigo-input-2" maxlength="8" placeholder="XXXXXXXX" oninput="this.value=this.value.toUpperCase()">
+    <button class="btn-activar" onclick="activarCodigo2()">Activar ahora</button>
+    <a class="btn-wa-contacto" href="https://wa.me/5493412477797?text=Hola%20Cintia!%20Mi%20prueba%20venci%C3%B3%20y%20quiero%20activar%20Impuls%C3%A1%20N.A." target="_blank">💬 Escribir a Soluciones IC</a>
+  </div>
+  <p style="font-size:11px;margin-top:16px;">341 247 7797 · @soluciones.ic · solucionesenrrhh.ic@gmail.com</p>
+</div>
+
+<header class="app-header">
+  <div class="header-brand">
+    <div class="header-logo"><span>CI</span></div>
+    <div class="header-text">
+      <h1>Impulsá N.A.</h1>
+      <p>Soluciones IC · Capital Humano</p>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="header-user" onclick="cerrarSesion()" title="Cerrar sesión">
+      <div>
+        <div class="header-user-name" id="header-username">—</div>
+        <div class="header-user-rol" id="header-userrol">—</div>
+      </div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;">👤</div>
+    </div>
+    <span class="header-date" id="today-date"></span>
+  </div>
+</header>
+
+<!-- INICIO -->
+<div class="page active" id="page-inicio">
+  <div class="welcome-card">
+    <h2>¡Hola, emprendedor/a! 👋</h2>
+    <p>Tu resumen de hoy está listo</p>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-label">Ventas hoy</div><div class="stat-value rosa" id="s-hoy">$0</div><div class="stat-sub" id="s-cant-hoy">0 operaciones</div></div>
+    <div class="stat-card"><div class="stat-label">Ventas mes</div><div class="stat-value" id="s-mes">$0</div><div class="stat-sub">Este mes</div></div>
+    <div class="stat-card"><div class="stat-label">Productos</div><div class="stat-value" id="s-prods">0</div><div class="stat-sub">En catálogo</div></div>
+    <div class="stat-card"><div class="stat-label">Clientes</div><div class="stat-value" id="s-clis">0</div><div class="stat-sub">Registrados</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Últimas ventas</div>
+    <div id="ultimas-ventas"></div>
+  </div>
+  <div class="card" id="panel-usuarios" style="display:none;">
+    <div class="card-title">👥 Gestión de usuarios</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Usuario</label><input class="form-input" id="nu-user" placeholder="Ej: maria" autocomplete="off"></div>
+      <div class="form-group"><label class="form-label">Contraseña</label><input class="form-input" id="nu-pass" placeholder="Mínimo 4 caracteres" autocomplete="off"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Nombre completo</label><input class="form-input" id="nu-nombre" placeholder="Ej: María González"></div>
+    <div class="form-group">
+      <label class="form-label">Rol</label>
+      <select class="form-select" id="nu-rol">
+        <option value="vendedor">🛒 Vendedor — registra ventas y ve catálogo</option>
+        <option value="deposito">📦 Depósito — gestiona stock</option>
+        <option value="lectura">👁 Solo lectura — ve reportes sin modificar</option>
+        <option value="dueno">👑 Dueño — acceso completo</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="agregarUsuario()">Agregar usuario</button>
+    <div style="margin-top:16px;" id="usuarios-lista"></div>
+  </div>
+  <div class="brand-footer">
+    <div class="brand-footer-logo"><div class="logo-circle"><span>CI</span></div><span class="logo-name">Soluciones IC · Capital Humano</span></div><br>
+    <div class="brand-footer-data">📩 solucionesenrrhh.ic@gmail.com · 341 247 7797<br>@soluciones.ic · Rosario · Servicio remoto</div>
+  </div>
+</div>
+
+<!-- CATÁLOGO -->
+<div class="page" id="page-catalogo">
+  <div class="mode-toggle">
+    <button class="mode-btn active" onclick="setCatMode('admin',this)">⚙️ Mis productos</button>
+    <button class="mode-btn" onclick="setCatMode('pub',this)">🛍 Ver catálogo</button>
+  </div>
+
+  <div id="cat-admin">
+    <div class="card">
+      <div class="card-title">⚙️ Datos de tu negocio</div>
+      <div class="form-group"><label class="form-label">Nombre del negocio</label><input class="form-input" id="neg-nombre" placeholder="Ej: Las Delicias de María"></div>
+      <div class="form-group"><label class="form-label">Descripción</label><input class="form-input" id="neg-desc" placeholder="Ej: Viandas y postres caseros · Rosario"></div>
+      <div class="form-group"><label class="form-label">WhatsApp (sin 0 ni 15)</label><input class="form-input" id="neg-wa" placeholder="Ej: 3412345678"></div>
+      <button class="btn btn-primary" onclick="guardarNegocio()">Guardar datos</button>
+    </div>
+    <div class="card">
+      <div class="card-title">📥 Importar productos desde Excel</div>
+      <div class="excel-upload">
+        <input type="file" accept=".xlsx,.xls,.csv" id="excel-input" onchange="importarExcel(this)">
+        <p>📊 Tocá para subir tu Excel o CSV</p>
+        <span>Columnas: nombre · precio · costo · stock · categoria · emoji</span>
+      </div>
+      <div id="excel-preview" style="display:none;">
+        <div style="font-size:12px;font-weight:700;color:var(--brown-light);margin-bottom:8px;">Vista previa — primeros 5 productos:</div>
+        <div class="excel-preview"><div id="excel-rows"></div></div>
+        <button class="btn btn-primary" id="btn-importar" onclick="confirmarImport()" style="background:var(--success);">✅ Importar todos los productos</button>
+      </div>
+      <div style="margin-top:12px;padding:12px;background:var(--cream-mid);border-radius:var(--radius-sm);border:1px solid var(--border);">
+        <div style="font-size:11px;font-weight:700;color:var(--brown-mid);margin-bottom:6px;">📋 Formato del Excel:</div>
+        <div style="font-size:11px;color:var(--brown-light);line-height:1.8;">
+          Columna A: <b>nombre</b> (obligatorio)<br>
+          Columna B: <b>precio</b> (número)<br>
+          Columna C: <b>costo</b> (número)<br>
+          Columna D: <b>stock</b> (número)<br>
+          Columna E: <b>categoria</b> (ej: Bebidas)<br>
+          Columna F: <b>emoji</b> (ej: 🥤)
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">➕ Agregar producto o servicio</div>
+      <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" id="cp-nombre" placeholder="Ej: Milanesas con puré · Pack x4"></div>
+      <div class="form-group"><label class="form-label">Descripción</label><input class="form-input" id="cp-desc" placeholder="Ej: Cocinado en casa, listo para calentar"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Precio</label><input class="form-input" id="cp-precio" type="number" placeholder="$0"></div>
+        <div class="form-group"><label class="form-label">Categoría</label><input class="form-input" id="cp-cat" placeholder="Ej: Viandas"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Foto</label>
+        <div class="foto-upload" id="foto-area">
+          <input type="file" accept="image/*" id="foto-input" onchange="cargarFoto(this)">
+          <img id="foto-prev" class="foto-preview" style="display:none">
+          <p id="foto-txt">📷 Tocá para subir foto</p>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Stock inicial</label><input class="form-input" id="cp-stock" type="number" placeholder="0" min="0"></div>
+        <div class="form-group"><label class="form-label">Emoji (sin foto)</label><input class="form-input" id="cp-emoji" placeholder="Ej: 🍱 🧁 🧹"></div>
+      </div>
+      <button class="btn btn-primary" onclick="agregarCatProd()">Agregar al catálogo</button>
+    </div>
+    <div class="card">
+      <div class="card-title">📦 Mis productos</div>
+      <div id="cat-admin-lista"></div>
+    </div>
+  </div>
+
+  <div id="cat-pub" style="display:none">
+    <div class="cat-header-pub" id="cat-header-pub">
+      <h2 id="pub-nombre">Mi Emprendimiento</h2>
+      <p id="pub-desc">Catálogo digital</p>
+      <a class="wa-link-pub" id="pub-wa" href="#" target="_blank">💬 Consultá por WhatsApp</a>
+    </div>
+    <div class="share-bar">
+      <p>📲 Compartí tu catálogo</p>
+      <button class="share-btn" onclick="compartir()">Compartir por WhatsApp</button>
+    </div>
+    <div class="cat-toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="cat-search-input" type="text" id="buscador" placeholder="Buscar producto o categoría..." oninput="filtrarCat()">
+      </div>
+      <div class="cat-filtros" id="cat-filtros"></div>
+      <div class="cat-sort">
+        <button class="sort-btn active" id="sort-def" onclick="setSort('default',this)">Predeterminado</button>
+        <button class="sort-btn" id="sort-asc" onclick="setSort('asc',this)">Precio ↑</button>
+        <button class="sort-btn" id="sort-desc" onclick="setSort('desc',this)">Precio ↓</button>
+        <button class="sort-btn" id="sort-stock" onclick="setSort('stock',this)">Con stock</button>
+      </div>
+      <div class="cat-count" id="cat-count"></div>
+    </div>
+    <div class="productos-grid" id="productos-grid"></div>
+  </div>
+</div>
+
+<!-- VENTAS -->
+<div class="page" id="page-ventas">
+  <div class="card">
+    <div class="card-title">🛒 Nueva venta</div>
+    <div class="form-group"><label class="form-label">Cliente (opcional)</label><select class="form-select" id="v-cliente"><option value="">Sin cliente registrado</option></select></div>
+    <div class="form-group"><label class="form-label">Seleccioná productos</label><div class="product-selector" id="prod-selector"></div></div>
+    <div id="carrito-sec" style="display:none">
+      <div class="card-title" style="margin-top:6px;">Carrito</div>
+      <div id="carrito-items"></div>
+      <div style="margin-top:12px;padding-top:12px;border-top:2px solid var(--rosa);display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:13px;font-weight:600;">Total</span>
+        <span style="font-size:19px;font-weight:700;color:var(--rosa);" id="carrito-total">$0</span>
+      </div>
+    </div>
+    <div class="form-row" style="margin-top:12px;">
+      <div class="form-group"><label class="form-label">Forma de pago</label><select class="form-select" id="v-pago"><option>Efectivo</option><option>Transferencia</option><option>Mercado Pago</option><option>Tarjeta</option></select></div>
+      <div class="form-group"><label class="form-label">Nota</label><input class="form-input" id="v-nota" placeholder="Opcional..."></div>
+    </div>
+    <button class="btn btn-primary" onclick="confirmarVenta()">Confirmar venta</button>
+  </div>
+  <div class="card">
+    <div class="card-title">📋 Historial</div>
+    <div id="historial"></div>
+  </div>
+</div>
+
+<!-- STOCK -->
+<div class="page" id="page-stock">
+  <div class="card"><div class="card-title">📊 Stock actual</div><div id="stock-list"></div></div>
+  <div class="card">
+    <div class="card-title">🔄 Ajustar stock</div>
+    <div class="form-group"><label class="form-label">Producto</label><select class="form-select" id="st-prod"></select></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Cantidad</label><input class="form-input" id="st-cant" type="number" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">Tipo</label><select class="form-select" id="st-tipo"><option value="entrada">Entrada</option><option value="salida">Salida</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">Motivo</label><input class="form-input" id="st-motivo" placeholder="Ej: Compra de insumos"></div>
+    <button class="btn btn-primary" onclick="ajustarStock()">Ajustar</button>
+  </div>
+</div>
+
+<!-- CLIENTES -->
+<div class="page" id="page-clientes">
+  <div class="card">
+    <div class="card-title">➕ Nuevo cliente</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" id="cl-nombre" placeholder="Nombre completo"></div>
+      <div class="form-group"><label class="form-label">Teléfono</label><input class="form-input" id="cl-tel" placeholder="341 000 0000"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Instagram</label><input class="form-input" id="cl-ig" placeholder="@usuario"></div>
+      <div class="form-group"><label class="form-label">Nota</label><input class="form-input" id="cl-nota" placeholder="Preferencias..."></div>
+    </div>
+    <button class="btn btn-primary" onclick="agregarCliente()">Guardar cliente</button>
+  </div>
+  <div class="card"><div class="card-title">👥 Mis clientes</div><div id="clientes-list"></div></div>
+</div>
+
+<!-- AGENDA -->
+<div class="page" id="page-agenda">
+  <div class="card">
+    <div class="card-title">➕ Nuevo recordatorio</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Hora</label><input class="form-input" id="ag-hora" type="time"></div>
+      <div class="form-group"><label class="form-label">Fecha</label><input class="form-input" id="ag-fecha" type="date"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Tarea</label><input class="form-input" id="ag-tarea" placeholder="Ej: Entregar pedido, llamar cliente..."></div>
+    <div class="form-group"><label class="form-label">Detalle</label><input class="form-input" id="ag-detalle" placeholder="Más info..."></div>
+    <button class="btn btn-primary" onclick="agregarAgenda()">Agregar</button>
+  </div>
+  <div class="card"><div class="card-title">📅 Mi agenda</div><div id="agenda-list"></div></div>
+</div>
+
+<!-- RESUMEN -->
+<div class="page" id="page-resumen">
+  <div class="card">
+    <div class="card-title">📈 Resumen del mes</div>
+    <div class="resumen-bar"><span class="rl">Total ventas</span><span class="rv rosa" id="r-ventas">$0</span></div>
+    <div class="resumen-bar"><span class="rl">Costo de lo vendido</span><span class="rv red" id="r-costos">$0</span></div>
+    <div class="resumen-bar" style="background:var(--cream-dark);border-color:var(--rosa);"><span class="rl" style="font-weight:700;">Ganancia neta</span><span class="rv green" id="r-ganancia">$0</span></div>
+    <div class="resumen-bar"><span class="rl">Cantidad de ventas</span><span class="rv" id="r-cant">0</span></div>
+    <div class="resumen-bar"><span class="rl">Ticket promedio</span><span class="rv" id="r-ticket">$0</span></div>
+    <div class="resumen-bar"><span class="rl">Producto más vendido</span><span class="rv" id="r-top" style="font-size:12px;">—</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">📦 Rentabilidad por producto</div>
+    <div id="rentabilidad-list"></div>
+  </div>
+  <div class="card"><div class="card-title">📦 Stock actual</div><div id="r-stock"></div></div>
+  <div class="brand-footer">
+    <div class="brand-footer-logo"><div class="logo-circle"><span>CI</span></div><span class="logo-name">Soluciones IC · Capital Humano</span></div><br>
+    <div class="brand-footer-data">📩 solucionesenrrhh.ic@gmail.com · 341 247 7797<br>@soluciones.ic · Rosario · Servicio remoto</div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="goTo('inicio',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio
+  </button>
+  <button class="nav-item" onclick="goTo('catalogo',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Catálogo
+  </button>
+  <button class="nav-item" onclick="goTo('ventas',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57L23 6H6"/></svg>Ventas
+  </button>
+  <button class="nav-item" onclick="goTo('stock',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Stock
+  </button>
+  <button class="nav-item" onclick="goTo('clientes',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Clientes
+  </button>
+  <button class="nav-item" onclick="goTo('agenda',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Agenda
+  </button>
+  <button class="nav-item" onclick="goTo('resumen',this)">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Resumen
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// DATA
+let D = JSON.parse(localStorage.getItem('impulsa_v3') || '{"productos":[],"ventas":[],"clientes":[],"agenda":[],"negocio":{}}');
+let carrito = {};
+let fotoB64 = '';
+let catActiva = 'todos';
+
+function save() { localStorage.setItem('impulsa_v3', JSON.stringify(D)); }
+function fmt(n) { return '$' + Number(n).toLocaleString('es-AR'); }
+function today() { return new Date().toISOString().split('T')[0]; }
+
+// TOAST
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// FECHA
+const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const hd = new Date();
+document.getElementById('today-date').textContent = dias[hd.getDay()] + ' ' + hd.getDate() + ' ' + meses[hd.getMonth()];
+
+// NAV
+function goTo(page, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  if(btn) btn.classList.add('active');
+  const renders = { inicio: renderInicio, catalogo: renderCatalogo, ventas: renderVentas, stock: renderStock, clientes: renderClientes, agenda: renderAgenda, resumen: renderResumen };
+  if(renders[page]) renders[page]();
+}
+
+// INICIO
+function renderInicio() {
+  const hoy = today(), mes = hoy.substring(0,7);
+  const vh = D.ventas.filter(v => v.fecha === hoy);
+  const vm = D.ventas.filter(v => v.fecha.startsWith(mes));
+  document.getElementById('s-hoy').textContent = fmt(vh.reduce((a,v)=>a+v.total,0));
+  document.getElementById('s-cant-hoy').textContent = vh.length + ' operación' + (vh.length!==1?'es':'');
+  document.getElementById('s-mes').textContent = fmt(vm.reduce((a,v)=>a+v.total,0));
+  document.getElementById('s-prods').textContent = D.productos.length;
+  document.getElementById('s-clis').textContent = D.clientes.length;
+  const ul = document.getElementById('ultimas-ventas');
+  const ult = [...D.ventas].reverse().slice(0,5);
+  ul.innerHTML = ult.length ? ult.map(v=>`<div class="list-item"><div class="list-item-info"><h3>${v.items.map(i=>i.nombre).join(', ')}</h3><p>${v.fecha} · ${v.pago}</p></div><div class="price-tag">${fmt(v.total)}</div></div>`).join('') : '<div class="empty-state"><p>Sin ventas todavía</p></div>';
+}
+
+// CATÁLOGO
+function setCatMode(mode, btn) {
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('cat-admin').style.display = mode==='admin' ? 'block' : 'none';
+  document.getElementById('cat-pub').style.display = mode==='pub' ? 'block' : 'none';
+  if(mode==='pub') renderCatPub();
+}
+
+function renderCatalogo() {
+  const n = D.negocio;
+  if(n.nombre) document.getElementById('neg-nombre').value = n.nombre;
+  if(n.desc) document.getElementById('neg-desc').value = n.desc;
+  if(n.wa) document.getElementById('neg-wa').value = n.wa;
+  renderCatAdmin();
+}
+
+function guardarNegocio() {
+  D.negocio = { nombre: document.getElementById('neg-nombre').value.trim()||'Mi Emprendimiento', desc: document.getElementById('neg-desc').value.trim()||'Catálogo digital', wa: document.getElementById('neg-wa').value.trim() };
+  save(); toast('✅ Datos guardados');
+}
+
+function cargarFoto(input) {
+  const file = input.files[0]; if(!file) return;
+  const r = new FileReader();
+  r.onload = e => { fotoB64 = e.target.result; const p = document.getElementById('foto-prev'); p.src = fotoB64; p.style.display='block'; document.getElementById('foto-txt').style.display='none'; };
+  r.readAsDataURL(file);
+}
+
+function agregarCatProd() {
+  const n = document.getElementById('cp-nombre').value.trim();
+  if(!n) { toast('Ingresá el nombre'); return; }
+  D.productos.push({ id: Date.now(), nombre: n, desc: document.getElementById('cp-desc').value.trim(), precio: parseFloat(document.getElementById('cp-precio').value)||0, costo: 0, stock: parseInt(document.getElementById('cp-stock').value)||0, categoria: document.getElementById('cp-cat').value.trim()||'General', foto: fotoB64, emoji: document.getElementById('cp-emoji').value.trim()||'📦', activo: true });
+  save(); fotoB64='';
+  ['cp-nombre','cp-desc','cp-precio','cp-cat','cp-emoji','cp-stock'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('foto-prev').style.display='none';
+  document.getElementById('foto-txt').style.display='block';
+  toast('✅ Producto agregado'); renderCatAdmin();
+}
+
+function renderCatAdmin() {
+  const el = document.getElementById('cat-admin-lista');
+  el.innerHTML = D.productos.length ? D.productos.map(p=>`
+    <div class="list-item">
+      <div style="display:flex;align-items:center;gap:10px;flex:1;">
+        <div style="width:48px;height:48px;border-radius:8px;background:var(--cream-dark);flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;">${p.foto?`<img src="${p.foto}" style="width:48px;height:48px;object-fit:cover;">`:p.emoji}</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:600;">${p.nombre}</div>
+          <div style="font-size:11px;color:var(--brown-light);">${p.categoria} · ${fmt(p.precio)}</div>
+          <div class="stock-inline">
+            <label>Stock:</label>
+            <input class="stock-mini" type="number" min="0" value="${p.stock}" onchange="actualizarStock(${p.id}, this.value)">
+            <span class="badge ${p.stock>5?'badge-green':p.stock>0?'badge-gold':'badge-red'}">${p.stock>5?'OK':p.stock>0?'Poco':'Agotado'}</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex-shrink:0;">
+        <button class="btn btn-danger" onclick="toggleCatProd(${p.id})">${p.activo?'Ocultar':'Mostrar'}</button>
+        <button class="btn btn-danger" onclick="elimCatProd(${p.id})">Eliminar</button>
+      </div>
+    </div>`).join('') : '<div class="empty-state"><p>Sin productos todavía</p></div>';
+}
+
+function actualizarStock(id, val) {
+  const p = D.productos.find(x=>x.id===id);
+  if(p) { p.stock = Math.max(0, parseInt(val)||0); save(); renderCatAdmin(); }
+}
+
+function toggleCatProd(id) { const p=D.productos.find(x=>x.id===id); if(p){p.activo=!p.activo;save();renderCatAdmin();toast(p.activo?'✅ Visible':'👁 Oculto');} }
+function elimCatProd(id) { D.productos=D.productos.filter(x=>x.id!==id);save();renderCatAdmin();toast('🗑 Eliminado'); }
+
+let sortActivo = 'default';
+
+function renderCatPub() {
+  const n = D.negocio;
+  document.getElementById('pub-nombre').textContent = n.nombre||'Mi Emprendimiento';
+  document.getElementById('pub-desc').textContent = n.desc||'Catálogo digital';
+  if(n.wa) document.getElementById('pub-wa').href = 'https://wa.me/549'+n.wa;
+  const activos = D.productos.filter(p=>p.activo);
+  const cats = ['todos',...new Set(activos.map(p=>p.categoria))];
+  document.getElementById('cat-filtros').innerHTML = cats.map((c,i)=>`<button class="filtro-btn ${i===0?'active':''}" onclick="filtrarCat('${c}',this)">${c==='todos'?'🏷 Todos':c}</button>`).join('');
+  filtrarCat2();
+}
+
+function renderGrid(prods) {
+  const grid = document.getElementById('productos-grid');
+  const wa = D.negocio.wa||'';
+  const count = document.getElementById('cat-count');
+  if(count) count.textContent = prods.length + ' producto' + (prods.length!==1?'s':'') + ' encontrado' + (prods.length!==1?'s':'');
+  grid.innerHTML = prods.length ? prods.map(p=>{
+    const sinStock = p.stock === 0;
+    const stockBajo = p.stock > 0 && p.stock <= 3;
+    const msg = encodeURIComponent(`Hola! Vi tu catálogo y me interesa: *${p.nombre}* (${fmt(p.precio)}). ¿Tenés disponible?`);
+    const link = wa?`https://wa.me/549${wa}?text=${msg}`:'#';
+    return `<div class="producto-card ${sinStock?'sin-stock':''}">
+      ${sinStock?'<div class="sin-stock-badge">Sin stock</div>':''}
+      ${stockBajo?'<div class="stock-bajo-badge">Últimas '+p.stock+'</div>':''}
+      <div class="producto-foto">${p.foto?`<img src="${p.foto}" alt="${p.nombre}">`:`<span>${p.emoji}</span>`}</div>
+      <div class="producto-info">
+        ${p.categoria?`<div class="producto-cat">${p.categoria}</div>`:''}
+        <div class="producto-nombre">${p.nombre}</div>
+        ${p.desc?`<div class="producto-desc">${p.desc}</div>`:''}
+        <div class="producto-precio">${fmt(p.precio)}</div>
+        ${sinStock
+          ? `<button class="btn-sin-stock">❌ Sin stock</button>`
+          : `<a class="btn-pedir" href="${link}" target="_blank">💬 Pedir por WhatsApp</a>`}
+      </div>
+    </div>`;
+  }).join('') : '<div class="empty-state" style="grid-column:1/-1"><p>Sin productos en esta categoría</p></div>';
+}
+
+function setSort(tipo, btn) {
+  sortActivo = tipo;
+  document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filtrarCat2();
+}
+
+function filtrarCat(cat,btn) {
+  catActiva=cat;
+  document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); filtrarCat2();
+}
+function filtrarCat2() {
+  const b=document.getElementById('buscador')?.value.toLowerCase()||'';
+  let p=D.productos.filter(x=>x.activo);
+  if(catActiva!=='todos') p=p.filter(x=>x.categoria===catActiva);
+  if(b) p=p.filter(x=>x.nombre.toLowerCase().includes(b)||x.desc?.toLowerCase().includes(b)||x.categoria?.toLowerCase().includes(b));
+  if(sortActivo==='asc') p.sort((a,b)=>a.precio-b.precio);
+  else if(sortActivo==='desc') p.sort((a,b)=>b.precio-a.precio);
+  else if(sortActivo==='stock') p=p.filter(x=>x.stock>0);
+  renderGrid(p);
+}
+function filtrarCat() { filtrarCat2(); }
+
+function compartir() {
+  const n=D.negocio.nombre||'Mi emprendimiento';
+  const wa=D.negocio.wa||'';
+  const txt=`🛍 *${n}* — Catálogo digital\n\n✅ Mirá todos nuestros productos\n💬 Pedí directo por WhatsApp\n\n👉 Para ver el catálogo completo escribime y te lo comparto ahora.\n\n📲 ${wa?'Escribinos al '+wa:'Escribinos por WhatsApp'}`;
+  if(navigator.share) navigator.share({title:n,text:txt});
+  else window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+}
+
+// VENTAS
+function renderVentas() {
+  const sel=document.getElementById('prod-selector');
+  sel.innerHTML=D.productos.length?D.productos.map(p=>`<div class="product-btn" id="pb-${p.id}" onclick="toggleProd(${p.id})"><div class="pname">${p.nombre}</div><div class="pprice">${fmt(p.precio)}</div><div class="pstock">Stock: ${p.stock}</div></div>`).join(''):'<div class="empty-state" style="grid-column:1/-1"><p>Cargá productos en el catálogo</p></div>';
+  const cl=document.getElementById('v-cliente');
+  cl.innerHTML='<option value="">Sin cliente</option>'+D.clientes.map(c=>`<option value="${c.id}">${c.nombre}</option>`).join('');
+  renderCarrito(); renderHistorial();
+}
+
+function toggleProd(id) {
+  if(carrito[id]) delete carrito[id]; else carrito[id]=1;
+  document.getElementById('pb-'+id)?.classList.toggle('selected',!!carrito[id]);
+  renderCarrito();
+}
+
+function renderCarrito() {
+  const ids=Object.keys(carrito);
+  const sec=document.getElementById('carrito-sec');
+  if(!ids.length){sec.style.display='none';return;}
+  sec.style.display='block';
+  let total=0;
+  document.getElementById('carrito-items').innerHTML=ids.map(id=>{
+    const p=D.productos.find(x=>x.id==id); if(!p) return '';
+    const sub=p.precio*carrito[id]; total+=sub;
+    return `<div class="cart-item"><div><div style="font-size:13px;font-weight:600;">${p.nombre}</div><div style="font-size:11px;color:var(--brown-light);">${fmt(p.precio)} c/u</div></div><div style="display:flex;align-items:center;gap:10px;"><div class="qty-control"><button class="qty-btn" onclick="qty(${id},-1)">−</button><span class="qty-num">${carrito[id]}</span><button class="qty-btn" onclick="qty(${id},1)">+</button></div><div style="font-size:13px;font-weight:700;color:var(--rosa);min-width:55px;text-align:right;">${fmt(sub)}</div></div></div>`;
+  }).join('');
+  document.getElementById('carrito-total').textContent=fmt(total);
+}
+
+function qty(id,d) { carrito[id]=(carrito[id]||0)+d; if(carrito[id]<=0){delete carrito[id];document.getElementById('pb-'+id)?.classList.remove('selected');} renderCarrito(); }
+
+function confirmarVenta() {
+  const ids=Object.keys(carrito);
+  if(!ids.length){toast('Seleccioná al menos un producto');return;}
+  const items=ids.map(id=>{const p=D.productos.find(x=>x.id==id);return{id:p.id,nombre:p.nombre,precio:p.precio,costo:p.costo,qty:carrito[id],subtotal:p.precio*carrito[id]};});
+  const total=items.reduce((a,i)=>a+i.subtotal,0);
+  const costoTotal=items.reduce((a,i)=>a+(i.costo*i.qty),0);
+  items.forEach(item=>{const p=D.productos.find(x=>x.id==item.id);if(p)p.stock=Math.max(0,p.stock-item.qty);});
+  D.ventas.push({id:Date.now(),fecha:today(),items,total,costoTotal,pago:document.getElementById('v-pago').value,nota:document.getElementById('v-nota').value,cliente:document.getElementById('v-cliente').value});
+  save(); carrito={}; document.getElementById('v-nota').value='';
+  toast('✅ Venta registrada: '+fmt(total)); renderVentas(); renderInicio();
+}
+
+function renderHistorial() {
+  const el=document.getElementById('historial');
+  const ult=[...D.ventas].reverse().slice(0,10);
+  el.innerHTML=ult.length?ult.map(v=>`<div class="list-item"><div class="list-item-info"><h3>${v.items.map(i=>i.nombre+(i.qty>1?' x'+i.qty:'')).join(', ')}</h3><p>${v.fecha} · ${v.pago}${v.nota?' · '+v.nota:''}</p></div><div style="text-align:right;"><div class="price-tag">${fmt(v.total)}</div><button class="btn btn-danger" style="margin-top:4px;" onclick="elimVenta(${v.id})">Eliminar</button></div></div>`).join(''):'<div class="empty-state"><p>Sin ventas todavía</p></div>';
+}
+function elimVenta(id){D.ventas=D.ventas.filter(v=>v.id!==id);save();renderHistorial();}
+
+// STOCK
+function renderStock() {
+  const el=document.getElementById('stock-list'),sel=document.getElementById('st-prod');
+  if(!D.productos.length){el.innerHTML='<div class="empty-state"><p>Cargá productos primero</p></div>';sel.innerHTML='<option>Sin productos</option>';return;}
+  el.innerHTML=D.productos.map(p=>`<div class="list-item"><div class="list-item-info"><h3>${p.nombre}</h3><p>${p.categoria||'General'}</p></div><div style="text-align:right;"><div class="price-tag" style="font-size:17px;">${p.stock}</div><span class="badge ${p.stock>5?'badge-green':p.stock>0?'badge-gold':'badge-red'}">${p.stock>5?'OK':p.stock>0?'Poco':'Agotado'}</span></div></div>`).join('');
+  sel.innerHTML=D.productos.map(p=>`<option value="${p.id}">${p.nombre} (${p.stock})</option>`).join('');
+}
+function ajustarStock(){
+  const id=parseInt(document.getElementById('st-prod').value),cant=parseInt(document.getElementById('st-cant').value)||0,tipo=document.getElementById('st-tipo').value;
+  if(!cant){toast('Ingresá una cantidad');return;}
+  const p=D.productos.find(x=>x.id==id);if(!p)return;
+  p.stock=tipo==='entrada'?p.stock+cant:Math.max(0,p.stock-cant);
+  save();document.getElementById('st-cant').value='';document.getElementById('st-motivo').value='';
+  toast('✅ Stock actualizado');renderStock();
+}
+
+// CLIENTES
+function agregarCliente(){
+  const n=document.getElementById('cl-nombre').value.trim();if(!n){toast('Ingresá el nombre');return;}
+  D.clientes.push({id:Date.now(),nombre:n,tel:document.getElementById('cl-tel').value,ig:document.getElementById('cl-ig').value,nota:document.getElementById('cl-nota').value,fecha:today()});
+  save();['cl-nombre','cl-tel','cl-ig','cl-nota'].forEach(id=>document.getElementById(id).value='');
+  toast('✅ Cliente guardado');renderClientes();
+}
+function renderClientes(){
+  const el=document.getElementById('clientes-list');
+  el.innerHTML=D.clientes.length?D.clientes.map(c=>{
+    const comp=D.ventas.filter(v=>v.cliente==c.id),tot=comp.reduce((a,v)=>a+v.total,0);
+    return `<div class="list-item"><div class="list-item-info"><h3>${c.nombre}</h3><p>${c.tel?'📞 '+c.tel:''}${c.ig?' · '+c.ig:''}</p>${c.nota?`<p>${c.nota}</p>`:''}<p style="color:var(--rosa);margin-top:3px;">${comp.length} compra${comp.length!==1?'s':''} · ${fmt(tot)}</p></div><button class="btn btn-danger" onclick="elimCliente(${c.id})">Eliminar</button></div>`;
+  }).join(''):'<div class="empty-state"><p>Sin clientes todavía</p></div>';
+}
+function elimCliente(id){D.clientes=D.clientes.filter(c=>c.id!==id);save();renderClientes();}
+
+// AGENDA
+function agregarAgenda(){
+  const t=document.getElementById('ag-tarea').value.trim();if(!t){toast('Ingresá una tarea');return;}
+  D.agenda.push({id:Date.now(),tarea:t,detalle:document.getElementById('ag-detalle').value,hora:document.getElementById('ag-hora').value,fecha:document.getElementById('ag-fecha').value||today(),done:false});
+  save();['ag-tarea','ag-detalle','ag-hora','ag-fecha'].forEach(id=>document.getElementById(id).value='');
+  toast('✅ Agregado');renderAgenda();
+}
+function renderAgenda(){
+  const el=document.getElementById('agenda-list');
+  const items=[...D.agenda].sort((a,b)=>(a.fecha+a.hora).localeCompare(b.fecha+b.hora));
+  if(!items.length){el.innerHTML='<div class="empty-state"><p>Sin recordatorios</p></div>';return;}
+  const grupos={};
+  items.forEach(i=>{if(!grupos[i.fecha])grupos[i.fecha]=[];grupos[i.fecha].push(i);});
+  el.innerHTML=Object.entries(grupos).map(([f,its])=>`<div class="agenda-day">${f}</div>${its.map(i=>`<div class="agenda-item"><div class="check-circle ${i.done?'done':''}" onclick="toggleAg(${i.id})">${i.done?'✓':''}</div><div style="flex:1;"><div class="agenda-text"><h4 style="${i.done?'text-decoration:line-through;opacity:0.5;':''}">${i.tarea}</h4>${i.detalle?`<p>${i.detalle}</p>`:''}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">${i.hora?`<div class="agenda-time">${i.hora}</div>`:''}<button class="btn btn-danger" onclick="elimAg(${i.id})">✕</button></div></div>`).join('')}`).join('');
+}
+function toggleAg(id){const i=D.agenda.find(x=>x.id===id);if(i){i.done=!i.done;save();renderAgenda();}}
+function elimAg(id){D.agenda=D.agenda.filter(x=>x.id!==id);save();renderAgenda();}
+
+// RESUMEN
+function renderResumen(){
+  const mes=today().substring(0,7);
+  const ventas=D.ventas.filter(v=>v.fecha.startsWith(mes));
+  const tv=ventas.reduce((a,v)=>a+v.total,0);
+  const tc=ventas.reduce((a,v)=>a+(v.costoTotal||0),0);
+  const gan=tv-tc;
+  const tick=ventas.length?tv/ventas.length:0;
+  const conteo={};
+  ventas.forEach(v=>v.items.forEach(i=>{conteo[i.nombre]=(conteo[i.nombre]||0)+i.qty;}));
+  const top=Object.entries(conteo).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('r-ventas').textContent=fmt(tv);
+  document.getElementById('r-costos').textContent=fmt(tc);
+  document.getElementById('r-ganancia').textContent=fmt(gan);
+  document.getElementById('r-cant').textContent=ventas.length;
+  document.getElementById('r-ticket').textContent=fmt(tick);
+  document.getElementById('r-top').textContent=top?top[0]+' ('+top[1]+' uds)':'—';
+
+  // Rentabilidad por producto
+  const rl=document.getElementById('rentabilidad-list');
+  if(!D.productos.length){rl.innerHTML='<div class="empty-state"><p>Sin productos</p></div>';}
+  else {
+    rl.innerHTML=D.productos.map(p=>{
+      const vendidos=ventas.flatMap(v=>v.items).filter(i=>i.id===p.id);
+      const totalVend=vendidos.reduce((a,i)=>a+i.subtotal,0);
+      const totalCosto=vendidos.reduce((a,i)=>a+(i.costo*i.qty),0);
+      const ganP=totalVend-totalCosto;
+      const margen=totalVend?Math.round((ganP/totalVend)*100):0;
+      return `<div class="resumen-bar"><span class="rl">${p.nombre}</span><span class="rv" style="text-align:right;font-size:12px;"><span style="color:var(--rosa);">${fmt(totalVend)}</span><br><span class="badge ${margen>=40?'badge-green':margen>=20?'badge-gold':'badge-red'}">Margen ${margen}%</span></span></div>`;
+    }).join('');
+  }
+
+  // Stock
+  const rs=document.getElementById('r-stock');
+  rs.innerHTML=D.productos.length?D.productos.map(p=>`<div class="resumen-bar"><span class="rl">${p.nombre}</span><span class="rv" style="display:flex;align-items:center;gap:6px;"><span>${p.stock} uds</span><span class="badge ${p.stock>5?'badge-green':p.stock>0?'badge-gold':'badge-red'}">${p.stock>5?'OK':p.stock>0?'Poco':'Agotado'}</span></span></div>`).join(''):'<div class="empty-state"><p>Sin productos</p></div>';
+}
+
+// INIT
+initUsuarios();
+// La app arranca en el login — el usuario debe autenticarse primero
+// El header y nav están ocultos hasta que se loguee
+document.querySelector('.app-header').style.display = 'none';
+document.querySelector('.bottom-nav').style.display = 'none';
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+
+// ==========================================
+// SISTEMA DE TRIAL Y ACTIVACIÓN
+// ==========================================
+const CODIGOS_VALIDOS = ['IMPULSA1','IMPULSA2','PROMO24','SOLUCIC1','SOLUCIC2','ACTIVA01','ACTIVA02','ACTIVA03'];
+const DIAS_TRIAL = 7;
+
+function checkTrial() {
+  const lic = D.licencia || {};
+
+  // Ya activado — no mostrar nada
+  if(lic.activa) return;
+
+  // Primera vez — registrar fecha de inicio
+  if(!lic.inicio) {
+    D.licencia = { activa: false, inicio: today(), vencimiento: null };
+    save();
+  }
+
+  const inicio = new Date(D.licencia.inicio);
+  const ahora = new Date();
+  const dias = Math.floor((ahora - inicio) / (1000 * 60 * 60 * 24));
+  const restantes = DIAS_TRIAL - dias;
+
+  if(restantes <= 0) {
+    // Trial vencido
+    document.getElementById('screen-vencida').style.display = 'flex';
+    document.querySelector('.bottom-nav').style.display = 'none';
+  } else {
+    // Trial activo — mostrar bienvenida solo el primer día o si quedan pocos días
+    if(dias === 0 || restantes <= 2) {
+      document.getElementById('trial-dias-num').textContent = restantes;
+      document.getElementById('screen-trial').style.display = 'flex';
+    }
+  }
+}
+
+function cerrarTrial() {
+  document.getElementById('screen-trial').style.display = 'none';
+}
+
+function activarCodigo() {
+  const codigo = document.getElementById('codigo-input').value.trim().toUpperCase();
+  procesarCodigo(codigo, 'codigo-input');
+}
+
+function activarCodigo2() {
+  const codigo = document.getElementById('codigo-input-2').value.trim().toUpperCase();
+  procesarCodigo(codigo, 'codigo-input-2');
+}
+
+function procesarCodigo(codigo, inputId) {
+  if(!codigo) { toast('Ingresá el código'); return; }
+  if(CODIGOS_VALIDOS.includes(codigo)) {
+    D.licencia = { activa: true, inicio: D.licencia?.inicio || today(), codigo: codigo, activado: today() };
+    save();
+    document.getElementById('screen-trial').style.display = 'none';
+    document.getElementById('screen-vencida').style.display = 'none';
+    document.querySelector('.bottom-nav').style.display = 'flex';
+    toast('🎉 ¡Activación exitosa! Bienvenido/a');
+    renderInicio();
+  } else {
+    document.getElementById(inputId).style.borderColor = '#C0392B';
+    toast('❌ Código incorrecto — contactá a Soluciones IC');
+    setTimeout(() => document.getElementById(inputId).style.borderColor = '', 2000);
+  }
+}
+
+// ==========================================
+// IMPORTAR DESDE EXCEL / CSV
+// ==========================================
+let productosImport = [];
+
+function importarExcel(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+
+  if(file.name.endsWith('.csv')) {
+    reader.onload = e => parsearCSV(e.target.result);
+    reader.readAsText(file, 'UTF-8');
+  } else {
+    // Para xlsx usamos una lógica simple de texto plano
+    reader.onload = e => {
+      toast('⚠️ Para mejor compatibilidad guardá el Excel como CSV primero');
+      // Intentar leer como texto
+      const text = new TextDecoder('utf-8').decode(new Uint8Array(e.target.result));
+      parsearCSV(text);
+    };
+    reader.readAsArrayBuffer(file);
+  }
+}
+
+function parsearCSV(texto) {
+  const lineas = texto.split(/\r?\n/).filter(l => l.trim());
+  if(lineas.length < 2) { toast('El archivo está vacío o tiene un solo registro'); return; }
+
+  // Detectar separador
+  const sep = lineas[0].includes(';') ? ';' : ',';
+  const inicio = lineas[0].toLowerCase().includes('nombre') ? 1 : 0;
+
+  productosImport = [];
+  for(let i = inicio; i < lineas.length; i++) {
+    const cols = lineas[i].split(sep).map(c => c.trim().replace(/^["']|["']$/g, ''));
+    if(!cols[0]) continue;
+    productosImport.push({
+      id: Date.now() + i,
+      nombre: cols[0] || '',
+      precio: parseFloat(cols[1]) || 0,
+      costo: parseFloat(cols[2]) || 0,
+      stock: parseInt(cols[3]) || 0,
+      categoria: cols[4] || 'General',
+      emoji: cols[5] || '📦',
+      foto: '',
+      activo: true,
+      desc: cols[6] || ''
+    });
+  }
+
+  if(!productosImport.length) { toast('No se encontraron productos válidos'); return; }
+
+  // Mostrar preview
+  const preview = document.getElementById('excel-preview');
+  const rows = document.getElementById('excel-rows');
+  preview.style.display = 'block';
+
+  // Header
+  rows.innerHTML = `<div class="excel-row" style="font-weight:700;color:var(--brown-mid);">
+    <div class="en">Nombre</div><div class="ep">Precio</div><div class="ec">Stock</div><div class="ec">Categ.</div>
+  </div>` + productosImport.slice(0, 5).map(p =>
+    `<div class="excel-row">
+      <div class="en">${p.nombre}</div>
+      <div class="ep">${fmt(p.precio)}</div>
+      <div class="ec">${p.stock}</div>
+      <div class="ec">${p.categoria}</div>
+    </div>`
+  ).join('');
+
+  document.getElementById('btn-importar').textContent = `✅ Importar ${productosImport.length} productos`;
+  toast(`📊 ${productosImport.length} productos listos para importar`);
+}
+
+function confirmarImport() {
+  if(!productosImport.length) return;
+  D.productos = [...D.productos, ...productosImport];
+  save();
+  productosImport = [];
+  document.getElementById('excel-preview').style.display = 'none';
+  document.getElementById('excel-input').value = '';
+  toast(`✅ ${D.productos.length} productos importados correctamente`);
+  renderCatAdmin();
+}
+
+// ==========================================
+// SISTEMA MULTIUSUARIO
+// ==========================================
+const ROLES = {
+  dueno:    { label: '👑 Dueño',    badge: 'rol-dueno',    paginas: ['inicio','catalogo','ventas','stock','clientes','agenda','resumen'] },
+  vendedor: { label: '🛒 Vendedor', badge: 'rol-vendedor', paginas: ['ventas','catalogo'] },
+  deposito: { label: '📦 Depósito', badge: 'rol-deposito', paginas: ['stock','inicio'] },
+  lectura:  { label: '👁 Lectura',  badge: 'rol-lectura',  paginas: ['resumen','inicio'] }
+};
+
+let usuarioActual = null;
+
+function initUsuarios() {
+  if(!D.usuarios) {
+    D.usuarios = [{ id:1, user:'admin', pass:'admin123', nombre:'Administrador', rol:'dueno' }];
+    save();
+  }
+}
+
+function loginBtn() {
+  const user = document.getElementById('login-user').value.trim().toLowerCase();
+  const pass = document.getElementById('login-pass').value;
+  const err  = document.getElementById('login-error');
+  if(!user||!pass){ err.textContent='Completá usuario y contraseña'; return; }
+  initUsuarios();
+  const found = D.usuarios.find(u => u.user.toLowerCase()===user && u.pass===pass);
+  if(!found){ err.textContent='Usuario o contraseña incorrectos'; return; }
+  usuarioActual = found;
+  document.getElementById('screen-login').style.display='none';
+  document.getElementById('login-user').value='';
+  document.getElementById('login-pass').value='';
+  err.textContent='';
+  aplicarRol();
+  checkTrial();
+  renderInicio();
+}
+
+function aplicarRol() {
+  if(!usuarioActual) return;
+  const rol = ROLES[usuarioActual.rol] || ROLES.vendedor;
+  document.querySelector('.app-header').style.display = 'flex';
+  document.querySelector('.bottom-nav').style.display  = 'flex';
+  document.getElementById('header-username').textContent = usuarioActual.nombre;
+  document.getElementById('header-userrol').textContent  = rol.label;
+
+  // Mostrar/ocultar nav según rol
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    const page = btn.getAttribute('onclick')?.match(/goTo\('(\w+)'/)?.[1];
+    if(page) btn.style.display = rol.paginas.includes(page) ? '' : 'none';
+  });
+
+  // Panel usuarios solo para dueño
+  document.getElementById('panel-usuarios').style.display = usuarioActual.rol==='dueno' ? 'block' : 'none';
+
+  // Ir a la primera página permitida
+  const primera = rol.paginas[0];
+  goTo(primera, document.querySelector(`.nav-item[onclick*="goTo('${primera}')"]`));
+  renderUsuarios();
+}
+
+function cerrarSesion() {
+  if(!confirm('¿Cerrar sesión?')) return;
+  usuarioActual = null;
+  document.getElementById('screen-login').style.display='flex';
+  document.getElementById('screen-trial').style.display='none';
+  document.getElementById('screen-vencida').style.display='none';
+}
+
+function agregarUsuario() {
+  const user   = document.getElementById('nu-user').value.trim().toLowerCase();
+  const pass   = document.getElementById('nu-pass').value.trim();
+  const nombre = document.getElementById('nu-nombre').value.trim();
+  const rol    = document.getElementById('nu-rol').value;
+  if(!user||!pass||!nombre){ toast('Completá todos los campos'); return; }
+  if(pass.length<4){ toast('La contraseña debe tener al menos 4 caracteres'); return; }
+  if(D.usuarios.find(u=>u.user===user)){ toast('Ese nombre de usuario ya existe'); return; }
+  D.usuarios.push({ id: Date.now(), user, pass, nombre, rol });
+  save();
+  ['nu-user','nu-pass','nu-nombre'].forEach(id=>document.getElementById(id).value='');
+  toast('✅ Usuario creado: '+nombre);
+  renderUsuarios();
+}
+
+function renderUsuarios() {
+  const el = document.getElementById('usuarios-lista');
+  if(!D.usuarios?.length){ el.innerHTML=''; return; }
+  const otros = D.usuarios.filter(u=>u.id!==usuarioActual?.id);
+  el.innerHTML = `<div class="card-title" style="margin-top:4px;">Usuarios activos</div>` +
+    D.usuarios.map(u=>{
+      const rol = ROLES[u.rol]||ROLES.vendedor;
+      const esYo = u.id===usuarioActual?.id;
+      return `<div class="usuario-item">
+        <div class="usuario-info">
+          <h3>${u.nombre} ${esYo?'<span style="font-size:10px;color:var(--brown-light);">(vos)</span>':''}</h3>
+          <p>@${u.user}</p>
+          <span class="rol-badge ${rol.badge}">${rol.label}</span>
+        </div>
+        ${!esYo?`<button class="btn btn-danger" onclick="eliminarUsuario(${u.id})">Eliminar</button>`:''}
+      </div>`;
+    }).join('');
+}
+
+function eliminarUsuario(id) {
+  if(!confirm('¿Eliminar este usuario?')) return;
+  D.usuarios = D.usuarios.filter(u=>u.id!==id);
+  save(); toast('🗑 Usuario eliminado'); renderUsuarios();
+}
+</script>
+</body>
+</html>
