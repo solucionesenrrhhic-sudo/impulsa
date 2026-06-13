@@ -655,7 +655,7 @@ async function loginBtn() {
   }
 
   // Buscar en Supabase
-  const { data, error } = await db.from('usuarios').select('*').eq('user', user).eq('pass', pass);
+  const { data, error } = await db.from('usuarios').select('*').eq('usuario', user).eq('contrasena', pass);
   if(error || !data?.length) { err.textContent = 'Usuario o contraseña incorrectos'; return; }
   usuarioActual = data[0];
   clienteId = data[0].cliente_id;
@@ -1107,7 +1107,7 @@ async function agregarUsuario() {
   const rol=document.getElementById('nu-rol').value;
   if(!user||!pass||!nombre){toast('Completá todos los campos');return;}
   if(pass.length<4){toast('Contraseña mínimo 4 caracteres');return;}
-  const {data:existe}=await db.from('usuarios').select('id').eq('user',user).eq('cliente_id',clienteId);
+  const {data:existe}=await db.from('usuarios').select('id').eq('usuario',user).eq('cliente_id',clienteId);
   if(existe?.length){toast('Ese usuario ya existe');return;}
   const nuevoClienteId = user + "_" + Date.now().toString().slice(-6);
   await db.from("usuarios").insert({user,pass,nombre,rol,cliente_id:nuevoClienteId});
