@@ -1109,7 +1109,8 @@ async function agregarUsuario() {
   if(pass.length<4){toast('Contraseña mínimo 4 caracteres');return;}
   const {data:existe}=await db.from('usuarios').select('id').eq('user',user).eq('cliente_id',clienteId);
   if(existe?.length){toast('Ese usuario ya existe');return;}
-  await db.from('usuarios').insert({user,pass,nombre,rol,cliente_id:clienteId});
+  const nuevoClienteId = user + "_" + Date.now().toString().slice(-6);
+  await db.from("usuarios").insert({user,pass,nombre,rol,cliente_id:nuevoClienteId});
   ['nu-user','nu-pass','nu-nombre'].forEach(id=>document.getElementById(id).value='');
   toast('✅ Usuario creado: '+nombre); renderUsuarios();
 }
