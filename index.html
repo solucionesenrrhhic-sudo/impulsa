@@ -649,7 +649,7 @@ async function loginBtn() {
   // Usuario maestro fijo (Cintia)
   if(user === MASTER_USER.user && pass === MASTER_USER.pass) {
     usuarioActual = MASTER_USER;
-    clienteId = 'master_soluciones_ic';
+    clienteId = 'soluciones_ic_principal';
     entrarApp();
     return;
   }
@@ -894,11 +894,16 @@ function filtrarCat() {
 }
 
 function compartir() {
-  const n = document.getElementById('pub-nombre').textContent;
-  const wa = document.getElementById('neg-wa')?.value||'';
-  const txt = `🛍 *${n}* — Catálogo digital\n\n✅ Mirá todos nuestros productos\n💬 Pedí directo por WhatsApp\n\n📲 ${wa?'Escribinos al '+wa:'Escribinos por WhatsApp'}`;
-  if(navigator.share) navigator.share({title:n,text:txt});
-  else window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+  const n = document.getElementById('pub-nombre').textContent || 'Mi Emprendimiento';
+  const wa = document.getElementById('neg-wa')?.value || '';
+  const link = window.location.href;
+  const txt = `🛍 *${n}* — Catálogo digital\n\n✅ Mirá todos mis productos\n💬 Pedí directo por WhatsApp\n\n📲 ${wa ? 'WhatsApp: ' + wa : 'Consultá por WhatsApp'}\n\n🔗 Ver catálogo: ${link}`;
+  if(navigator.share) {
+    navigator.share({ title: n, text: txt, url: link })
+      .catch(() => window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank'));
+  } else {
+    window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank');
+  }
 }
 
 // IMPORTAR EXCEL
