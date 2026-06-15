@@ -777,6 +777,7 @@ async function renderInicio() {
 // NEGOCIO (config catálogo)
 // ==========================================
 async function renderCatalogo() {
+  actualizarLinkPublico();
   const negocio = await sbGetSingle('config', 'clave', 'negocio');
   if(negocio?.valor) {
     const n = JSON.parse(negocio.valor);
@@ -897,6 +898,25 @@ function filtrarCat() {
   else if(sortActivo==='desc') p.sort((a,b)=>b.precio-a.precio);
   else if(sortActivo==='stock') p=p.filter(x=>(x.stock||0)>0);
   renderGrid(p);
+}
+
+function compartirDesdeAdmin() {
+  const baseUrl = window.location.origin + window.location.pathname;
+  const linkPublico = baseUrl + '?catalogo=' + clienteId;
+  const negNombre = document.getElementById('neg-nombre')?.value || 'Mi Emprendimiento';
+  const txt = `🛍 *${negNombre}* — Catálogo digital\n\n✅ Mirá todos mis productos y precios\n💬 Pedí directo por WhatsApp\n\n👇 Ver catálogo completo:\n${linkPublico}`;
+  if(navigator.share) {
+    navigator.share({ title: negNombre, text: txt, url: linkPublico })
+      .catch(() => window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank'));
+  } else {
+    window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank');
+  }
+}
+
+function actualizarLinkPublico() {
+  const baseUrl = window.location.origin + window.location.pathname;
+  const el = document.getElementById('link-publico-display');
+  if(el && clienteId) el.textContent = baseUrl + '?catalogo=' + clienteId;
 }
 
 function compartir() {
