@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impulsa NA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5}
+#login{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);padding:20px}
+.box{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 50px rgba(0,0,0,0.3);width:100%;max-width:400px}
+.box h1{text-align:center;color:#5a3a3a;margin-bottom:5px;font-size:28px}
+.box p{text-align:center;color:#999;margin-bottom:30px;font-size:13px}
+.fg{margin-bottom:15px}
+.fg label{display:block;margin-bottom:5px;color:#333;font-weight:500;font-size:13px}
+.fg input{width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;font-size:13px}
+.fg input:focus{outline:none;border-color:#5a3a3a}
+.btn{width:100%;padding:11px;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;border:none;border-radius:5px;font-weight:600;cursor:pointer;font-size:14px}
+.btn:hover{transform:translateY(-1px)}
+.err{background:#fdd;color:#c33;padding:10px;border-radius:5px;margin-bottom:15px;font-size:12px;display:none}
+.err.show{display:block}
+.tg{text-align:center;margin-top:20px;color:#999;font-size:12px}
+.tg a{color:#5a3a3a;cursor:pointer}
+
+#app{display:none;min-height:100vh;background:#f5f5f5}
+#app.on{display:block}
+.hd{background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+.hd h1{font-size:18px}
+.hd p{font-size:11px;opacity:0.8}
+.out{background:rgba(255,255,255,0.2);color:white;border:1px solid white;padding:6px 12px;border-radius:3px;cursor:pointer;font-size:12px}
+.out:hover{background:rgba(255,255,255,0.3)}
+.nav{display:flex;gap:5px;padding:10px 20px;background:white;border-bottom:1px solid #ddd;overflow-x:auto}
+.nav button{padding:8px 15px;background:0;border:0;cursor:pointer;color:#666;font-size:12px;border-bottom:2px solid transparent}
+.nav button.on{color:#5a3a3a;border-bottom-color:#5a3a3a}
+.cnt{padding:15px 20px;max-width:1000px;margin:0 auto}
+.mod{display:none}
+.mod.on{display:block}
+.cd{background:white;padding:15px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin-bottom:15px}
+.cd h2{color:#5a3a3a;margin-bottom:12px;font-size:16px;border-bottom:2px solid #f0e68c;padding-bottom:8px}
+.st{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px}
+.s{background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;padding:15px;border-radius:6px;text-align:center}
+.s .v{font-size:20px;font-weight:700}
+.s .l{font-size:10px;opacity:0.9;margin-top:5px}
+.ir{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:10px}
+input,select{padding:8px;border:1px solid #ddd;border-radius:4px;font-size:13px}
+input:focus,select:focus{outline:none;border-color:#5a3a3a}
+.bs{padding:6px 10px;font-size:11px;width:auto;margin-right:3px;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;border:none;cursor:pointer;border-radius:3px}
+.bs:hover{opacity:0.9}
+.bw{background:#25d366;color:white;padding:8px 12px;font-size:12px;width:auto;border:none;border-radius:4px;cursor:pointer;margin-right:5px}
+.bw:hover{background:#20ba5a}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+table th{background:#f0e68c;padding:8px;text-align:left;border-bottom:1px solid #ddd;color:#5a3a3a;font-weight:600}
+table td{padding:8px;border-bottom:1px solid #eee}
+.bd{padding:2px 5px;border-radius:10px;font-size:10px;font-weight:600}
+.bd1{background:#d4edda;color:#155724}
+.bd2{background:#f8d7da;color:#721c24}
+.img{max-width:35px;max-height:35px;border-radius:3px}
+.txt{font-size:16px;font-weight:700;color:#5a3a3a;margin:10px 0}
+.share-box{background:#f9f9f9;padding:12px;border-radius:5px;border-left:4px solid #25d366;margin-top:10px}
+.share-box p{font-size:12px;color:#666;margin-bottom:8px}
+.share-controls{display:grid;grid-template-columns:1fr auto auto;gap:5px}
+.share-controls input{grid-column:1}
+.share-controls button{grid-column:auto}
+</style>
+</head>
+<body>
+<div id="login">
+<div class="box">
+<h1>Impulsa NA</h1>
+<p>Gestion para emprendedores</p>
+<div class="err" id="err"></div>
+
+<div id="lf">
+<h3 style="text-align:center;color:#5a3a3a;margin-bottom:20px;font-size:16px">Ingresar</h3>
+<div class="fg"><label>Email</label><input type="email" id="le" value="cintia@test.com"></div>
+<div class="fg"><label>Contrasena</label><input type="password" id="lp" value="cintia123"></div>
+<button class="btn" onclick="login()">Ingresar</button>
+<div class="tg">No tienes cuenta? <a onclick="tg()">Crea una</a></div>
+</div>
+
+<div id="sf" style="display:none">
+<h3 style="text-align:center;color:#5a3a3a;margin-bottom:20px;font-size:16px">Crear cuenta</h3>
+<div class="fg"><label>Nombre</label><input type="text" id="sn"></div>
+<div class="fg"><label>Email</label><input type="email" id="se"></div>
+<div class="fg"><label>Contrasena</label><input type="password" id="sp"></div>
+<div class="fg"><label>Rol</label><select id="sr" onchange="document.getElementById('bf').style.display=this.value=='Vendedor'?'block':'none'"><option value="Dueno">Dueno</option><option value="Vendedor">Vendedor</option></select></div>
+<div class="fg" id="bf" style="display:none"><label>Tu negocio</label><input type="text" id="sb"></div>
+<button class="btn" onclick="signup()">Crear cuenta</button>
+<div class="tg">Ya tienes cuenta? <a onclick="tg()">Inicia sesion</a></div>
+</div>
+</div>
+</div>
+
+<div id="app">
+<div class="hd">
+<div><h1>Impulsa NA</h1><p id="ui"></p></div>
+<button class="out" onclick="logout()">Salir</button>
+</div>
+
+<div class="nav">
+<button class="tab on" onclick="sw('h')">Inicio</button>
+<button class="tab" onclick="sw('v')">Vendedores</button>
+<button class="tab" onclick="sw('c')">Catalogo</button>
+<button class="tab" onclick="sw('ve')">Ventas</button>
+<button class="tab" onclick="sw('cl')">Clientes</button>
+</div>
+
+<div class="cnt">
+<!-- INICIO -->
+<div id="h" class="mod on">
+<div class="cd"><h2>Resumen</h2>
+<div class="st">
+<div class="s"><div class="v" id="t1">$0</div><div class="l">Hoy</div></div>
+<div class="s"><div class="v" id="t2">$0</div><div class="l">Mes</div></div>
+<div class="s"><div class="v" id="t3">0</div><div class="l">Productos</div></div>
+<div class="s"><div class="v" id="t4">0</div><div class="l">Clientes</div></div>
+</div></div>
+</div>
+
+<!-- VENDEDORES (SOLO PARA DUENO) -->
+<div id="v" class="mod" style="display:none" id="v-tab">
+<div class="cd"><h2>Mis Vendedores</h2>
+<p style="font-size:12px;color:#666;margin-bottom:15px">Crea cuentas para tus vendedores (como Sandra). Ellos verán solo su negocio.</p>
+<div class="ir">
+<input type="text" id="vn" placeholder="Nombre del vendedor">
+<input type="email" id="ve" placeholder="Email">
+<input type="password" id="vp" placeholder="Contrasena">
+<input type="text" id="vb" placeholder="Nombre del negocio">
+</div>
+<button class="btn" onclick="addVendedor()">Crear vendedor</button>
+
+<h3 style="color:#5a3a3a;margin-top:20px;margin-bottom:10px;font-size:14px">Vendedores activos:</h3>
+<table id="vt"><thead><tr><th>Nombre</th><th>Email</th><th>Negocio</th><th>Accion</th></tr></thead><tbody></tbody></table>
+</div>
+</div>
+
+<!-- CATALOGO -->
+<div id="c" class="mod">
+<div class="cd"><h2>Nuevo Producto</h2>
+<div class="ir">
+<input type="text" id="pn" placeholder="Nombre">
+<input type="number" id="pp" placeholder="Precio" step="0.01">
+<input type="number" id="ps" value="1" placeholder="Stock">
+</div>
+<div class="ir">
+<input type="file" id="pf" accept="image/*">
+<img id="pv" class="img" style="display:none">
+</div>
+<button class="btn" onclick="ap()">Agregar</button>
+</div>
+
+<div class="cd"><h2>Productos</h2>
+<table id="pt"><thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>X</th></tr></thead><tbody></tbody></table>
+</div>
+
+<div class="cd"><h2>📱 Compartir Catalogo por WhatsApp</h2>
+<div class="share-box">
+<p><strong>Tu link para compartir:</strong></p>
+<div class="share-controls">
+<input type="text" id="sl" readonly style="background:#f0f0f0">
+<button class="bw" onclick="copyLink()">📋 Copiar</button>
+<button class="bw" onclick="shareWhatsapp()">💬 WhatsApp</button>
+</div>
+<p style="font-size:11px;color:#999;margin-top:8px">Comparte este link con tus clientes para que vean tu catalogo</p>
+</div>
+</div>
+</div>
+
+<!-- VENTAS -->
+<div id="ve" class="mod">
+<div class="cd"><h2>Nueva Venta</h2>
+<div class="ir">
+<select id="vvp" onchange="ut()"><option>-- Producto --</option></select>
+<input type="number" id="vvq" value="1" min="1" onchange="ut()">
+</div>
+<div class="ir">
+<select id="vvc"><option>-- Cliente --</option></select>
+<select id="vvm"><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option></select>
+</div>
+<div class="txt">Total: <span id="vvt">$0</span></div>
+<button class="btn" onclick="cs()">Confirmar</button>
+</div>
+
+<div class="cd"><h2>Historial de ventas</h2>
+<table id="vl"><thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Cliente</th><th>Metodo</th><th>X</th></tr></thead><tbody></tbody></table>
+</div>
+</div>
+
+<!-- CLIENTES -->
+<div id="cl" class="mod">
+<div class="cd"><h2>Nuevo Cliente</h2>
+<div class="ir">
+<input type="text" id="cn" placeholder="Nombre">
+<input type="tel" id="ct" placeholder="Telefono">
+</div>
+<button class="btn" onclick="ac()">Guardar</button>
+</div>
+
+<div class="cd"><h2>Mis Clientes</h2>
+<table id="clt"><thead><tr><th>Nombre</th><th>Telefono</th><th>X</th></tr></thead><tbody></tbody></table>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+let u=null;
+let photo='';
+
+function db(k,v){if(v===undefined)return JSON.parse(localStorage.getItem(k)||'[]');localStorage.setItem(k,JSON.stringify(v))}
+
+window.onload=function(){
+  if(!db('u').length){
+    db('u',[{id:1,e:'cintia@test.com',p:'cintia123',n:'Cintia',r:'Dueno',b:null}]);
+    db('ve',[{id:1,n:'Sandra',e:'sandra@test.com',p:'sandra123',b:'Los 3 Ases'}]);
+  }
+  document.getElementById('pf').onchange=function(e){
+    if(e.target.files[0]){let r=new FileReader();r.onload=function(ev){photo=ev.target.result;document.getElementById('pv').src=photo;document.getElementById('pv').style.display='block'};r.readAsDataURL(e.target.files[0])}
+  };
+};
+
+function tg(){document.getElementById('lf').style.display=document.getElementById('lf').style.display==='none'?'block':'none';document.getElementById('sf').style.display=document.getElementById('sf').style.display==='none'?'block':'none'}
+
+function err(m){let e=document.getElementById('err');e.textContent=m;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),3000)}
+
+function login(){let e=document.getElementById('le').value;let p=document.getElementById('lp').value;let x=db('u').find(a=>a.e===e&&a.p===p);if(!x){x=db('ve').find(a=>a.e===e&&a.p===p);if(x){x.r='Vendedor';x.b=x.b;x.id=x.id}}if(x){u=x;document.getElementById('login').style.display='none';document.getElementById('app').classList.add('on');document.getElementById('ui').textContent=u.n+' ('+u.r+')';document.getElementById('v-tab').style.display=u.r==='Dueno'?'block':'none';rf()}else err('Email o contrasena incorrecta')}
+
+function signup(){let n=document.getElementById('sn').value;let e=document.getElementById('se').value;let p=document.getElementById('sp').value;let r=document.getElementById('sr').value;let b=document.getElementById('sb').value;if(!n||!e||!p){err('Completa todos');return}if(db('u').find(a=>a.e===e)||db('ve').find(a=>a.e===e)){err('Email existe');return}let x={id:Math.max(...db('u').map(a=>a.id||0),0)+1,e,p,n,r,b:r==='Vendedor'?b:null};db('u',[...db('u'),x]);u=x;document.getElementById('login').style.display='none';document.getElementById('app').classList.add('on');document.getElementById('ui').textContent=u.n+' ('+u.r+')';document.getElementById('v-tab').style.display=u.r==='Dueno'?'block':'none';rf()}
+
+function logout(){u=null;document.getElementById('app').classList.remove('on');document.getElementById('login').style.display='flex';document.getElementById('lf').style.display='block';document.getElementById('sf').style.display='none';document.getElementById('le').value='cintia@test.com';document.getElementById('lp').value='cintia123'}
+
+function sw(m){document.querySelectorAll('.mod').forEach(e=>e.classList.remove('on'));document.getElementById(m).classList.add('on');document.querySelectorAll('.tab').forEach(e=>e.classList.remove('on'));event.target.classList.add('on')}
+
+function addVendedor(){let n=document.getElementById('vn').value;let e=document.getElementById('ve').value;let p=document.getElementById('vp').value;let b=document.getElementById('vb').value;if(!n||!e||!p||!b){alert('Completa todos');return}if(db('ve').find(x=>x.e===e)||db('u').find(x=>x.e===e)){alert('Email existe');return}let a=db('ve');a.push({id:Math.max(...a.map(x=>x.id||0),0)+1,n,e,p,b});db('ve',a);document.getElementById('vn').value='';document.getElementById('ve').value='';document.getElementById('vp').value='';document.getElementById('vb').value='';rf();alert('Vendedor creado: '+n+'\nEmail: '+e+'\nContraseña: '+p)}
+
+function deleteVendedor(id){if(confirm('Eliminar?')){db('ve',db('ve').filter(x=>x.id!==id));rf()}}
+
+function ap(){let n=document.getElementById('pn').value;let pr=parseFloat(document.getElementById('pp').value);let st=parseInt(document.getElementById('ps').value);if(!n||!pr){alert('Nombre y precio');return}let a=db('pr');a.push({id:Math.max(...a.map(x=>x.id||0),0)+1,n,pr,st,f:photo,b:u.b||'General'});db('pr',a);document.getElementById('pn').value='';document.getElementById('pp').value='';document.getElementById('ps').value='1';document.getElementById('pf').value='';document.getElementById('pv').style.display='none';photo='';rf();alert('Agregado')}
+
+function dp(id){if(confirm('Eliminar?')){db('pr',db('pr').filter(x=>x.id!==id));rf()}}
+
+function ut(){let id=parseInt(document.getElementById('vvp').value);let q=parseInt(document.getElementById('vvq').value);let p=db('pr').find(x=>x.id===id);document.getElementById('vvt').textContent=p?'$'+(p.pr*q).toFixed(2):'$0'}
+
+function cs(){let id=parseInt(document.getElementById('vvp').value);let q=parseInt(document.getElementById('vvq').value);let cl=document.getElementById('vvc').value;let m=document.getElementById('vvm').value;if(!id){alert('Selecciona');return}let p=db('pr').find(x=>x.id===id);let t=p.pr*q;let a=db('v');a.push({id:Math.max(...a.map(x=>x.id||0),0)+1,d:new Date().toISOString().split('T')[0],pro:p.n,q,pr:p.pr,t,cl,m,b:u.b||'General'});db('v',a);p.st-=q;db('pr',db('pr'));document.getElementById('vvp').value='';document.getElementById('vvq').value='1';document.getElementById('vvc').value='';document.getElementById('vvt').textContent='$0';rf();alert('OK')}
+
+function dvl(id){if(confirm('Eliminar?')){db('v',db('v').filter(x=>x.id!==id));rf()}}
+
+function ac(){let n=document.getElementById('cn').value;let t=document.getElementById('ct').value;if(!n||!t){alert('Nombre y tel');return}let a=db('c');a.push({id:Math.max(...a.map(x=>x.id||0),0)+1,n,t,b:u.b||'General'});db('c',a);document.getElementById('cn').value='';document.getElementById('ct').value='';rf();alert('OK')}
+
+function dcl(id){if(confirm('Eliminar?')){db('c',db('c').filter(x=>x.id!==id));rf()}}
+
+function copyLink(){document.getElementById('sl').select();document.execCommand('copy');alert('Link copiado')}
+
+function shareWhatsapp(){let txt=document.getElementById('sl').value;window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank')}
+
+function rf(){let pr=db('pr').filter(x=>u.r==='Dueno'?true:x.b===u.b);let v=db('v').filter(x=>u.r==='Dueno'?true:x.b===u.b);let c=db('c').filter(x=>u.r==='Dueno'?true:x.b===u.b);let td=new Date().toISOString().split('T')[0];let ts=v.filter(x=>x.d===td).reduce((a,b)=>a+b.t,0);let ta=v.reduce((a,b)=>a+b.t,0);document.getElementById('t1').textContent='$'+ts.toFixed(2);document.getElementById('t2').textContent='$'+ta.toFixed(2);document.getElementById('t3').textContent=pr.length;document.getElementById('t4').textContent=c.length;let html='<thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>X</th></tr></thead><tbody>';pr.forEach(x=>{html+='<tr><td>'+(x.f?'<img src="'+x.f+'" class="img">':'')+'</td><td>'+x.n+'</td><td>$'+x.pr.toFixed(2)+'</td><td><span class="bd '+(x.st>0?'bd1':'bd2')+'">'+x.st+'</span></td><td><button class="bs" onclick="dp('+x.id+')">X</button></td></tr>'});html+='</tbody>';document.getElementById('pt').innerHTML=html;html='<thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th></tr></thead><tbody>';pr.forEach(x=>{html+='<tr><td>'+(x.f?'<img src="'+x.f+'" class="img">':'')+'</td><td>'+x.n+'</td><td>$'+x.pr.toFixed(2)+'</td><td>'+x.st+'</td></tr>'});html+='</tbody>';html='<thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Cliente</th><th>Metodo</th><th>X</th></tr></thead><tbody>';v.forEach(x=>{html+='<tr><td>'+x.d+'</td><td>'+x.pro+'</td><td>'+x.q+'</td><td>$'+x.t.toFixed(2)+'</td><td>'+(x.cl||'-')+'</td><td>'+x.m+'</td><td><button class="bs" onclick="dvl('+x.id+')">X</button></td></tr>'});html+='</tbody>';document.getElementById('vl').innerHTML=html;html='<thead><tr><th>Nombre</th><th>Telefono</th><th>X</th></tr></thead><tbody>';c.forEach(x=>{html+='<tr><td>'+x.n+'</td><td>'+x.t+'</td><td><button class="bs" onclick="dcl('+x.id+')">X</button></td></tr>'});html+='</tbody>';document.getElementById('clt').innerHTML=html;html='<option>-- Producto --</option>';pr.forEach(x=>{html+='<option value="'+x.id+'">'+x.n+' ($'+x.pr.toFixed(2)+') Stock:'+x.st+'</option>'});document.getElementById('vvp').innerHTML=html;html='<option>-- Cliente --</option>';c.forEach(x=>{html+='<option value="'+x.n+'">'+x.n+'</option>'});document.getElementById('vvc').innerHTML=html;let vhtml='<thead><tr><th>Nombre</th><th>Email</th><th>Negocio</th><th>Accion</th></tr></thead><tbody>';db('ve').forEach(x=>{vhtml+='<tr><td>'+x.n+'</td><td>'+x.e+'</td><td>'+x.b+'</td><td><button class="bs" onclick="deleteVendedor('+x.id+')">X</button></td></tr>'});vhtml+='</tbody>';document.getElementById('vt').innerHTML=vhtml;let biz=u.b||'General';let link='Ver catalogo de '+biz+': '+window.location.origin+window.location.pathname+'?cat='+biz.replace(/\s+/g,'_');document.getElementById('sl').value=link}
+</script>
+</body>
+</html>
