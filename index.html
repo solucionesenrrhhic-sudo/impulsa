@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impulsa NA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5}
+.hidden{display:none!important}
+#login{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:20px}
+.box{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 50px rgba(0,0,0,0.3);width:100%;max-width:400px}
+.box h1{text-align:center;color:#333;margin-bottom:5px;font-size:28px}
+.box p{text-align:center;color:#999;margin-bottom:30px;font-size:13px}
+.fg{margin-bottom:15px}
+.fg label{display:block;margin-bottom:5px;color:#333;font-weight:500;font-size:13px}
+.fg input,.fg select{width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;font-size:13px;font-family:inherit}
+.fg input:focus,.fg select:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 2px rgba(102,126,234,0.1)}
+.btn{width:100%;padding:11px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border:none;border-radius:5px;font-weight:600;cursor:pointer;font-size:14px}
+.btn:hover{transform:translateY(-1px)}
+.err{background:#fdd;color:#c33;padding:10px;border-radius:5px;margin-bottom:15px;font-size:12px;display:none}
+.err.on{display:block}
+.tg{text-align:center;margin-top:20px;color:#999;font-size:12px}
+.tg a{color:#667eea;cursor:pointer;text-decoration:none}
+#app{display:none;background:#f5f5f5;min-height:100vh}
+#app.on{display:block}
+.hd{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+.hd h1{font-size:18px}
+.hd p{font-size:11px;opacity:0.8}
+.out{background:rgba(255,255,255,0.2);color:white;border:1px solid white;padding:6px 12px;border-radius:3px;cursor:pointer;font-size:12px}
+.out:hover{background:rgba(255,255,255,0.3)}
+.nav{display:flex;gap:5px;padding:10px 20px;background:white;border-bottom:1px solid #ddd}
+.nav button{padding:8px 15px;background:0;border:0;cursor:pointer;color:#666;font-size:12px;border-bottom:2px solid transparent}
+.nav button.on{color:#667eea;border-bottom-color:#667eea}
+.cnt{padding:15px 20px;max-width:1000px;margin:0 auto}
+.mod{display:none}
+.mod.on{display:block}
+.cd{background:white;padding:15px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin-bottom:15px}
+.cd h2{color:#333;margin-bottom:12px;font-size:16px}
+.st{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:15px}
+.s{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:15px;border-radius:6px;text-align:center}
+.s .v{font-size:22px;font-weight:700}
+.s .l{font-size:11px;opacity:0.9;margin-top:5px}
+.inp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:10px}
+input,select{padding:8px;border:1px solid #ddd;border-radius:4px;font-size:13px;font-family:inherit}
+input:focus,select:focus{outline:0;border-color:#667eea}
+.bs{padding:6px 10px;font-size:11px;width:auto;margin-right:5px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+table th{background:#f0f0f0;padding:8px;text-align:left;border-bottom:1px solid #ddd}
+table td{padding:8px;border-bottom:1px solid #eee}
+.bd{padding:3px 6px;border-radius:10px;font-size:11px;font-weight:600}
+.bd1{background:#d4edda;color:#155724}
+.bd2{background:#f8d7da;color:#721c24}
+.img{max-width:40px;max-height:40px;border-radius:3px}
+.pr{font-size:16px;font-weight:700;color:#667eea;margin:10px 0}
+</style>
+</head>
+<body>
+<div id="login">
+<div class="box">
+<h1>Impulsa NA</h1>
+<p>Gestion para emprendedores</p>
+<div class="err" id="err"></div>
+<form id="fm1" style="display:none">
+<div class="fg"><label>Email</label><input type="email" id="e1" value="cintia@test.com"></div>
+<div class="fg"><label>Contrasena</label><input type="password" id="p1" value="cintia123"></div>
+<button type="button" class="btn" onclick="go()">Ingresar</button>
+</form>
+<form id="fm2">
+<div class="fg"><label>Nombre</label><input type="text" id="n2"></div>
+<div class="fg"><label>Email</label><input type="email" id="e2"></div>
+<div class="fg"><label>Contrasena</label><input type="password" id="p2"></div>
+<div class="fg"><label>Rol</label><select id="r2" onchange="document.getElementById('b2').style.display=this.value=='Vendedor'?'block':'none'"><option value="Dueno">Dueno</option><option value="Vendedor">Vendedor</option></select></div>
+<div class="fg" id="b2" style="display:none"><label>Tu negocio</label><input type="text" id="c2"></div>
+<button type="button" class="btn" onclick="su()">Crear cuenta</button>
+</form>
+<div class="tg"><span id="tt">No tienes cuenta? <a onclick="tg()">Crea una</a></span></div>
+</div>
+</div>
+<div id="app">
+<div class="hd">
+<div><h1>Impulsa NA</h1><p id="ui"></p></div>
+<button class="out" onclick="lo()">Salir</button>
+</div>
+<div class="nav">
+<button class="nav-b on" onclick="sw('h')">Inicio</button>
+<button class="nav-b" onclick="sw('c')">Catalogo</button>
+<button class="nav-b" onclick="sw('v')">Ventas</button>
+<button class="nav-b" onclick="sw('cl')">Clientes</button>
+</div>
+<div class="cnt">
+<div id="h" class="mod on">
+<div class="cd"><h2>Resumen</h2>
+<div class="st">
+<div class="s"><div class="v" id="t1">$0</div><div class="l">Hoy</div></div>
+<div class="s"><div class="v" id="t2">$0</div><div class="l">Mes</div></div>
+<div class="s"><div class="v" id="t3">0</div><div class="l">Productos</div></div>
+<div class="s"><div class="v" id="t4">0</div><div class="l">Clientes</div></div>
+</div></div></div>
+<div id="c" class="mod">
+<div class="cd"><h2>Nuevo producto</h2>
+<div class="inp">
+<input type="text" id="pn" placeholder="Nombre">
+<input type="number" id="pp" placeholder="Precio" step="0.01">
+<input type="number" id="ps" value="1" placeholder="Stock">
+<input type="text" id="pc" placeholder="Categoria">
+</div>
+<div class="inp">
+<input type="file" id="pf" accept="image/*">
+<img id="pv" class="img" style="display:none">
+</div>
+<button class="btn" onclick="ap()">Agregar</button>
+</div>
+<div class="cd"><h2>Productos</h2>
+<table id="pt"><thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>X</th></tr></thead><tbody></tbody></table>
+</div></div>
+<div id="v" class="mod">
+<div class="cd"><h2>Nueva venta</h2>
+<div class="inp">
+<select id="vp" onchange="ut()"><option>-- Producto --</option></select>
+<input type="number" id="vq" value="1" min="1" onchange="ut()">
+</div>
+<div class="inp">
+<select id="vc"><option>-- Cliente --</option></select>
+<select id="vm"><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option></select>
+</div>
+<div class="pr">Total: <span id="vt">$0</span></div>
+<button class="btn" onclick="cs()">Confirmar</button>
+</div>
+<div class="cd"><h2>Ventas</h2>
+<table id="vt"><thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Cliente</th><th>Metodo</th></tr></thead><tbody></tbody></table>
+</div></div>
+<div id="cl" class="mod">
+<div class="cd"><h2>Nuevo cliente</h2>
+<div class="inp">
+<input type="text" id="cn" placeholder="Nombre">
+<input type="tel" id="ct" placeholder="Telefono">
+</div>
+<button class="btn" onclick="ac()">Guardar</button>
+</div>
+<div class="cd"><h2>Clientes</h2>
+<table id="ct"><thead><tr><th>Nombre</th><th>Telefono</th><th>X</th></tr></thead><tbody></tbody></table>
+</div></div>
+</div></div>
+<script>
+let u=null;
+let x='';
+function db(k,v){if(v===undefined)return JSON.parse(localStorage.getItem(k)||'[]');localStorage.setItem(k,JSON.stringify(v))}
+window.onload=function(){let a=db('u');if(!a.length)db('u',[{id:1,e:'cintia@test.com',p:'cintia123',n:'Cintia',r:'Dueno',b:null}]);document.getElementById('pf').onchange=function(e){if(e.target.files[0]){let d=new FileReader();d.onload=function(f){x=f.target.result;document.getElementById('pv').src=x;document.getElementById('pv').style.display='block'};d.readAsDataURL(e.target.files[0])}}};
+function tg(){let l=document.getElementById('fm1');let s=document.getElementById('fm2');l.style.display=l.style.display==='none'?'block':'none';s.style.display=s.style.display==='none'?'block':'none'}
+function sh(m){let e=document.getElementById('err');e.textContent=m;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),3000)}
+function go(){let e=document.getElementById('e1').value;let p=document.getElementById('p1').value;let a=db('u').find(z=>z.e===e&&z.p===p);if(a){u=a;document.getElementById('login').style.display='none';document.getElementById('app').classList.add('on');document.getElementById('ui').textContent=u.n+' ('+u.r+')';rf()}else sh('Email o contrasena incorrecta')}
+function su(){let n=document.getElementById('n2').value;let e=document.getElementById('e2').value;let p=document.getElementById('p2').value;let r=document.getElementById('r2').value;let b=document.getElementById('c2').value;if(!n||!e||!p){sh('Completa todos');return}if(db('u').find(z=>z.e===e)){sh('Email existe');return}let a={id:Math.max(...db('u').map(z=>z.id||0),0)+1,e,p,n,r,b:r==='Vendedor'?b:null};db('u',[...db('u'),a]);u=a;document.getElementById('login').style.display='none';document.getElementById('app').classList.add('on');document.getElementById('ui').textContent=u.n+' ('+u.r+')';rf()}
+function lo(){u=null;document.getElementById('app').classList.remove('on');document.getElementById('login').style.display='flex';document.getElementById('fm1').style.display='block';document.getElementById('fm2').style.display='none'}
+function sw(m){document.querySelectorAll('.mod').forEach(e=>e.classList.remove('on'));document.getElementById(m).classList.add('on');document.querySelectorAll('.nav-b').forEach(e=>e.classList.remove('on'));event.target.classList.add('on')}
+function ap(){let n=document.getElementById('pn').value;let pr=parseFloat(document.getElementById('pp').value);let st=parseInt(document.getElementById('ps').value);let ca=document.getElementById('pc').value;if(!n||!pr){alert('Nombre y precio');return}let a=db('pr');a.push({id:Math.max(...a.map(z=>z.id||0),0)+1,n,pr,st,ca,f:x,b:u.b||'General'});db('pr',a);document.getElementById('pn').value='';document.getElementById('pp').value='';document.getElementById('ps').value='1';document.getElementById('pc').value='';document.getElementById('pf').value='';document.getElementById('pv').style.display='none';x='';rf();alert('OK')}
+function dp(id){if(confirm('Eliminar?')){db('pr',db('pr').filter(z=>z.id!==id));rf()}}
+function ut(){let id=parseInt(document.getElementById('vp').value);let q=parseInt(document.getElementById('vq').value);let p=db('pr').find(z=>z.id===id);document.getElementById('vt').textContent=p?'$'+(p.pr*q).toFixed(2):'$0'}
+function cs(){let id=parseInt(document.getElementById('vp').value);let q=parseInt(document.getElementById('vq').value);let cl=document.getElementById('vc').value;let m=document.getElementById('vm').value;if(!id){alert('Selecciona');return}let p=db('pr').find(z=>z.id===id);let t=p.pr*q;let a=db('v');a.push({id:Math.max(...a.map(z=>z.id||0),0)+1,d:new Date().toISOString().split('T')[0],pro:p.n,q,pr:p.pr,t,cl,m,b:u.b||'General'});db('v',a);p.st-=q;db('pr',db('pr'));document.getElementById('vp').value='';document.getElementById('vq').value='1';document.getElementById('vc').value='';document.getElementById('vt').textContent='$0';rf();alert('OK')}
+function ac(){let n=document.getElementById('cn').value;let ph=document.getElementById('ct').value;if(!n||!ph){alert('Nombre y tel');return}let a=db('c');a.push({id:Math.max(...a.map(z=>z.id||0),0)+1,n,ph,b:u.b||'General'});db('c',a);document.getElementById('cn').value='';document.getElementById('ct').value='';rf();alert('OK')}
+function dcl(id){if(confirm('Eliminar?')){db('c',db('c').filter(z=>z.id!==id));rf()}}
+function rf(){let pr=db('pr').filter(z=>u.r==='Dueno'?true:z.b===u.b);let v=db('v').filter(z=>u.r==='Dueno'?true:z.b===u.b);let c=db('c').filter(z=>u.r==='Dueno'?true:z.b===u.b);let td=new Date().toISOString().split('T')[0];let ts=v.filter(z=>z.d===td).reduce((a,b)=>a+b.t,0);let ta=v.reduce((a,b)=>a+b.t,0);document.getElementById('t1').textContent='$'+ts.toFixed(2);document.getElementById('t2').textContent='$'+ta.toFixed(2);document.getElementById('t3').textContent=pr.length;document.getElementById('t4').textContent=c.length;let html='<thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>X</th></tr></thead><tbody>';pr.forEach(z=>{html+='<tr><td>'+(z.f?'<img src="'+z.f+'" class="img">':'')+'</td><td>'+z.n+'</td><td>$'+z.pr.toFixed(2)+'</td><td><span class="bd '+(z.st>0?'bd1':'bd2')+'">'+z.st+'</span></td><td><button class="btn bs" onclick="dp('+z.id+')">X</button></td></tr>'});html+='</tbody>';document.getElementById('pt').innerHTML=html;html='<thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Cliente</th><th>Metodo</th></tr></thead><tbody>';v.forEach(z=>{html+='<tr><td>'+z.d+'</td><td>'+z.pro+'</td><td>'+z.q+'</td><td>$'+z.t.toFixed(2)+'</td><td>'+(z.cl||'-')+'</td><td>'+z.m+'</td></tr>'});html+='</tbody>';document.getElementById('vt').innerHTML=html;html='<thead><tr><th>Nombre</th><th>Telefono</th><th>X</th></tr></thead><tbody>';c.forEach(z=>{html+='<tr><td>'+z.n+'</td><td>'+z.ph+'</td><td><button class="btn bs" onclick="dcl('+z.id+')">X</button></td></tr>'});html+='</tbody>';document.getElementById('ct').innerHTML=html;html='<option>-- Producto --</option>';pr.forEach(z=>{html+='<option value="'+z.id+'">'+z.n+' ($'+z.pr.toFixed(2)+') Stock:'+z.st+'</option>'});document.getElementById('vp').innerHTML=html;html='<option>-- Cliente --</option>';c.forEach(z=>{html+='<option value="'+z.n+'">'+z.n+'</option>'});document.getElementById('vc').innerHTML=html}
+</script>
+</body>
+</html>
