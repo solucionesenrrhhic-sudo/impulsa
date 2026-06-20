@@ -7,55 +7,54 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5}
-.hidden{display:none!important}
 #login-screen{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);padding:20px}
 .login-box{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 50px rgba(0,0,0,0.3);width:100%;max-width:400px}
 .login-box h1{text-align:center;color:#5a3a3a;margin-bottom:5px;font-size:28px}
 .login-box p{text-align:center;color:#999;margin-bottom:30px;font-size:13px}
-.form-group{margin-bottom:15px}
-.form-group label{display:block;margin-bottom:5px;color:#333;font-weight:500;font-size:13px}
-.form-group input{width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;font-size:13px;font-family:inherit}
-.form-group input:focus{outline:none;border-color:#5a3a3a;box-shadow:0 0 0 2px rgba(90,58,58,0.1)}
+.fg{margin-bottom:15px}
+.fg label{display:block;margin-bottom:5px;color:#333;font-weight:500;font-size:13px}
+.fg input{width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;font-size:13px}
+.fg input:focus{outline:none;border-color:#5a3a3a}
 .btn{width:100%;padding:11px;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;border:none;border-radius:5px;font-weight:600;cursor:pointer;font-size:14px}
 .btn:hover{transform:translateY(-1px)}
-.error{background:#fdd;color:#c33;padding:10px;border-radius:5px;margin-bottom:15px;font-size:12px;display:none}
-.error.show{display:block}
-.toggle{text-align:center;margin-top:20px;color:#999;font-size:12px}
-.toggle a{color:#5a3a3a;cursor:pointer;text-decoration:none}
+.err{background:#fdd;color:#c33;padding:10px;border-radius:5px;margin-bottom:15px;font-size:12px;display:none}
+.err.show{display:block}
+.tg{text-align:center;margin-top:20px;color:#999;font-size:12px}
+.tg a{color:#5a3a3a;cursor:pointer}
 
-#app{display:none;background:#f5f5f5;min-height:100vh}
-#app.active{display:block}
-.header{background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
-.header h1{font-size:18px}
-.header p{font-size:11px;opacity:0.8}
-.logout-btn{background:rgba(255,255,255,0.2);color:white;border:1px solid white;padding:6px 12px;border-radius:3px;cursor:pointer;font-size:12px}
-.logout-btn:hover{background:rgba(255,255,255,0.3)}
-.tabs{display:flex;gap:5px;padding:10px 20px;background:white;border-bottom:1px solid #ddd}
-.tabs button{padding:8px 15px;background:transparent;border:none;cursor:pointer;color:#666;font-size:12px;border-bottom:2px solid transparent}
-.tabs button.active{color:#5a3a3a;border-bottom-color:#5a3a3a}
-.content{padding:15px 20px;max-width:1000px;margin:0 auto}
-.module{display:none}
-.module.active{display:block}
-.card{background:white;padding:15px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin-bottom:15px}
-.card h2{color:#5a3a3a;margin-bottom:12px;font-size:16px;border-bottom:2px solid #f0e68c;padding-bottom:8px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:15px}
-.stat{background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;padding:15px;border-radius:6px;text-align:center}
-.stat .value{font-size:22px;font-weight:700}
-.stat .label{font-size:11px;opacity:0.9;margin-top:5px}
-.input-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:10px}
-input,select{padding:8px;border:1px solid #ddd;border-radius:4px;font-size:13px;font-family:inherit}
+#app{display:none;min-height:100vh}
+#app.on{display:block}
+.hd{background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
+.hd h1{font-size:18px}
+.hd p{font-size:11px;opacity:0.8}
+.out{background:rgba(255,255,255,0.2);color:white;border:1px solid white;padding:6px 12px;border-radius:3px;cursor:pointer;font-size:12px}
+.out:hover{background:rgba(255,255,255,0.3)}
+.nav{display:flex;gap:5px;padding:10px 20px;background:white;border-bottom:1px solid #ddd}
+.nav button{padding:8px 15px;background:0;border:0;cursor:pointer;color:#666;font-size:12px;border-bottom:2px solid transparent}
+.nav button.on{color:#5a3a3a;border-bottom-color:#5a3a3a}
+.cnt{padding:15px 20px;max-width:1000px;margin:0 auto}
+.mod{display:none}
+.mod.on{display:block}
+.cd{background:white;padding:15px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin-bottom:15px}
+.cd h2{color:#5a3a3a;margin-bottom:12px;font-size:16px;border-bottom:2px solid #f0e68c;padding-bottom:8px}
+.st{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px}
+.s{background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;padding:15px;border-radius:6px;text-align:center}
+.s .v{font-size:20px;font-weight:700}
+.s .l{font-size:10px;opacity:0.9;margin-top:5px}
+.ir{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:10px}
+input,select{padding:8px;border:1px solid #ddd;border-radius:4px;font-size:13px}
 input:focus,select:focus{outline:none;border-color:#5a3a3a}
-.btn-small{padding:6px 10px;font-size:11px;width:auto;margin-right:5px}
+.bs{padding:6px 10px;font-size:11px;width:auto;margin-right:3px}
+.bw{background:#25d366;color:white;padding:6px 10px;font-size:11px;width:auto;border:none;border-radius:4px;cursor:pointer}
+.bw:hover{background:#20ba5a}
 table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
 table th{background:#f0e68c;padding:8px;text-align:left;border-bottom:1px solid #ddd;color:#5a3a3a;font-weight:600}
 table td{padding:8px;border-bottom:1px solid #eee}
-.badge{padding:3px 6px;border-radius:10px;font-size:11px;font-weight:600}
-.badge-ok{background:#d4edda;color:#155724}
-.badge-no{background:#f8d7da;color:#721c24}
-.price{font-size:16px;font-weight:700;color:#5a3a3a;margin:10px 0}
-.img-preview{max-width:40px;max-height:40px;border-radius:3px;margin-top:5px}
-.btn-whatsapp{background:#25d366;color:white;border:none;padding:8px 15px;border-radius:4px;cursor:pointer;font-size:12px;margin-top:10px}
-.btn-whatsapp:hover{background:#20ba5a}
+.bd{padding:2px 5px;border-radius:10px;font-size:10px;font-weight:600}
+.bd1{background:#d4edda;color:#155724}
+.bd2{background:#f8d7da;color:#721c24}
+.img{max-width:35px;max-height:35px;border-radius:3px}
+.txt{font-size:16px;font-weight:700;color:#5a3a3a;margin:10px 0}
 </style>
 </head>
 <body>
@@ -63,385 +62,166 @@ table td{padding:8px;border-bottom:1px solid #eee}
 <div class="login-box">
 <h1>Impulsa NA</h1>
 <p>Gestion para emprendedores</p>
-<div class="error" id="error"></div>
+<div class="err" id="err"></div>
 
 <div id="login-form">
 <h3 style="text-align:center;color:#5a3a3a;margin-bottom:20px;font-size:16px">Ingresar</h3>
-<div class="form-group">
-<label>Email</label>
-<input type="email" id="login-email" value="cintia@test.com">
-</div>
-<div class="form-group">
-<label>Contrasena</label>
-<input type="password" id="login-pass" value="cintia123">
-</div>
-<button class="btn" onclick="doLogin()">Ingresar</button>
-<div class="toggle">
-No tienes cuenta? <a onclick="toggleForm()">Crea una</a>
-</div>
+<div class="fg"><label>Email</label><input type="email" id="le" value="cintia@test.com"></div>
+<div class="fg"><label>Contrasena</label><input type="password" id="lp" value="cintia123"></div>
+<button class="btn" onclick="login()">Ingresar</button>
+<div class="tg">No tienes cuenta? <a onclick="tg()">Crea una</a></div>
 </div>
 
 <div id="signup-form" style="display:none">
 <h3 style="text-align:center;color:#5a3a3a;margin-bottom:20px;font-size:16px">Crear cuenta</h3>
-<div class="form-group">
-<label>Nombre</label>
-<input type="text" id="signup-name">
-</div>
-<div class="form-group">
-<label>Email</label>
-<input type="email" id="signup-email">
-</div>
-<div class="form-group">
-<label>Contrasena</label>
-<input type="password" id="signup-pass">
-</div>
-<div class="form-group">
-<label>Rol</label>
-<select id="signup-role" onchange="document.getElementById('biz-field').style.display=this.value=='Vendedor'?'block':'none'">
-<option value="Dueno">Dueno</option>
-<option value="Vendedor">Vendedor</option>
-</select>
-</div>
-<div class="form-group" id="biz-field" style="display:none">
-<label>Tu negocio</label>
-<input type="text" id="signup-biz">
-</div>
-<button class="btn" onclick="doSignup()">Crear cuenta</button>
-<div class="toggle">
-Ya tienes cuenta? <a onclick="toggleForm()">Inicia sesion</a>
-</div>
+<div class="fg"><label>Nombre</label><input type="text" id="sn"></div>
+<div class="fg"><label>Email</label><input type="email" id="se"></div>
+<div class="fg"><label>Contrasena</label><input type="password" id="sp"></div>
+<div class="fg"><label>Rol</label><select id="sr" onchange="document.getElementById('bf').style.display=this.value=='Vendedor'?'block':'none'"><option value="Dueno">Dueno</option><option value="Vendedor">Vendedor</option></select></div>
+<div class="fg" id="bf" style="display:none"><label>Tu negocio</label><input type="text" id="sb"></div>
+<button class="btn" onclick="signup()">Crear cuenta</button>
+<div class="tg">Ya tienes cuenta? <a onclick="tg()">Inicia sesion</a></div>
 </div>
 </div>
 </div>
 
 <div id="app">
-<div class="header">
-<div>
-<h1>Impulsa NA</h1>
-<p id="user-info"></p>
-</div>
-<button class="logout-btn" onclick="doLogout()">Salir</button>
+<div class="hd">
+<div><h1>Impulsa NA</h1><p id="ui"></p></div>
+<button class="out" onclick="logout()">Salir</button>
 </div>
 
-<div class="tabs">
-<button class="tab-btn active" onclick="switchTab('inicio')">Inicio</button>
-<button class="tab-btn" onclick="switchTab('catalogo')">Catalogo</button>
-<button class="tab-btn" onclick="switchTab('ventas')">Ventas</button>
-<button class="tab-btn" onclick="switchTab('clientes')">Clientes</button>
+<div class="nav">
+<button class="tab on" onclick="sw('h')">Inicio</button>
+<button class="tab" onclick="sw('c')">Catalogo</button>
+<button class="tab" onclick="sw('v')">Ventas</button>
+<button class="tab" onclick="sw('cl')">Clientes</button>
 </div>
 
-<div class="content">
+<div class="cnt">
 <!-- INICIO -->
-<div id="inicio" class="module active">
-<div class="card">
-<h2>Resumen</h2>
-<div class="stats">
-<div class="stat">
-<div class="value" id="stat-today">$0</div>
-<div class="label">Hoy</div>
-</div>
-<div class="stat">
-<div class="value" id="stat-month">$0</div>
-<div class="label">Mes</div>
-</div>
-<div class="stat">
-<div class="value" id="stat-prod">0</div>
-<div class="label">Productos</div>
-</div>
-<div class="stat">
-<div class="value" id="stat-cli">0</div>
-<div class="label">Clientes</div>
-</div>
-</div>
-</div>
+<div id="h" class="mod on">
+<div class="cd"><h2>Resumen</h2>
+<div class="st">
+<div class="s"><div class="v" id="t1">$0</div><div class="l">Hoy</div></div>
+<div class="s"><div class="v" id="t2">$0</div><div class="l">Mes</div></div>
+<div class="s"><div class="v" id="t3">0</div><div class="l">Productos</div></div>
+<div class="s"><div class="v" id="t4">0</div><div class="l">Clientes</div></div>
+</div></div>
 </div>
 
 <!-- CATALOGO -->
-<div id="catalogo" class="module">
-<div class="card">
-<h2>Nuevo Producto</h2>
-<div class="input-row">
+<div id="c" class="mod">
+<div class="cd"><h2>Nuevo Producto</h2>
+<div class="ir">
 <input type="text" id="pn" placeholder="Nombre">
 <input type="number" id="pp" placeholder="Precio" step="0.01">
 <input type="number" id="ps" value="1" placeholder="Stock">
 </div>
-<div class="input-row">
+<div class="ir">
 <input type="file" id="pf" accept="image/*">
-<img id="pv" class="img-preview" style="display:none">
+<img id="pv" class="img" style="display:none">
 </div>
-<button class="btn" onclick="addProduct()">Agregar</button>
+<button class="btn" onclick="ap()">Agregar</button>
 </div>
 
-<div class="card">
-<h2>Productos</h2>
-<table id="pt">
-<thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Accion</th></tr></thead>
-<tbody></tbody>
-</table>
+<div class="cd"><h2>Productos</h2>
+<table id="pt"><thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>X</th></tr></thead><tbody></tbody></table>
+</div>
+
+<div class="cd"><h2>Compartir Catalogo</h2>
+<p style="font-size:12px;color:#666;margin-bottom:10px">Tu link para compartir por WhatsApp:</p>
+<div style="display:grid;grid-template-columns:1fr auto;gap:5px">
+<input type="text" id="share-link" readonly style="background:#f9f9f9">
+<button class="bw" onclick="copyLink()">Copiar</button>
+<button class="bw" onclick="shareWhatsapp()">WhatsApp</button>
+</div>
 </div>
 </div>
 
 <!-- VENTAS -->
-<div id="ventas" class="module">
-<div class="card">
-<h2>Nueva Venta</h2>
-<div class="input-row">
-<select id="vp" onchange="updateTotal()">
-<option value="">-- Selecciona producto --</option>
-</select>
-<input type="number" id="vq" value="1" min="1" onchange="updateTotal()">
+<div id="v" class="mod">
+<div class="cd"><h2>Nueva Venta</h2>
+<div class="ir">
+<select id="vp" onchange="ut()"><option>-- Producto --</option></select>
+<input type="number" id="vq" value="1" min="1" onchange="ut()">
 </div>
-<div class="input-row">
-<select id="vc">
-<option>-- Cliente (opcional) --</option>
-</select>
-<select id="vm">
-<option>Efectivo</option>
-<option>Tarjeta</option>
-<option>Transferencia</option>
-</select>
+<div class="ir">
+<select id="vc"><option>-- Cliente --</option></select>
+<select id="vm"><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option></select>
 </div>
-<div class="price">Total: <span id="vt">$0</span></div>
-<button class="btn" onclick="confirmSale()">Confirmar venta</button>
+<div class="txt">Total: <span id="vt">$0</span></div>
+<button class="btn" onclick="cs()">Confirmar</button>
 </div>
 
-<div class="card">
-<h2>Historial</h2>
-<table id="vl">
-<thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Cliente</th><th>Metodo</th><th>Accion</th></tr></thead>
-<tbody></tbody>
-</table>
+<div class="cd"><h2>Historial</h2>
+<table id="vl"><thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Cliente</th><th>Metodo</th><th>X</th></tr></thead><tbody></tbody></table>
 </div>
 </div>
 
 <!-- CLIENTES -->
-<div id="clientes" class="module">
-<div class="card">
-<h2>Nuevo Cliente</h2>
-<div class="input-row">
+<div id="cl" class="mod">
+<div class="cd"><h2>Nuevo Cliente</h2>
+<div class="ir">
 <input type="text" id="cn" placeholder="Nombre">
 <input type="tel" id="ct" placeholder="Telefono">
 </div>
-<button class="btn" onclick="addClient()">Guardar</button>
+<button class="btn" onclick="ac()">Guardar</button>
 </div>
 
-<div class="card">
-<h2>Mis Clientes</h2>
-<table id="ct">
-<thead><tr><th>Nombre</th><th>Telefono</th><th>Accion</th></tr></thead>
-<tbody></tbody>
-</table>
+<div class="cd"><h2>Mis Clientes</h2>
+<table id="cl-table"><thead><tr><th>Nombre</th><th>Telefono</th><th>X</th></tr></thead><tbody></tbody></table>
 </div>
 </div>
 </div>
 </div>
 
 <script>
-let user=null;
+let u=null;
 let photo='';
 
-function db(k,v){
-  if(v===undefined)return JSON.parse(localStorage.getItem(k)||'[]');
-  localStorage.setItem(k,JSON.stringify(v));
-}
+function db(k,v){if(v===undefined)return JSON.parse(localStorage.getItem(k)||'[]');localStorage.setItem(k,JSON.stringify(v))}
 
 window.onload=function(){
-  let users=db('u');
-  if(!users.length){
-    db('u',[{id:1,e:'cintia@test.com',p:'cintia123',n:'Cintia',r:'Dueno',b:null}]);
-  }
+  if(!db('u').length)db('u',[{id:1,e:'cintia@test.com',p:'cintia123',n:'Cintia',r:'Dueno',b:null}]);
   document.getElementById('pf').onchange=function(e){
-    if(e.target.files[0]){
-      let r=new FileReader();
-      r.onload=function(ev){
-        photo=ev.target.result;
-        document.getElementById('pv').src=photo;
-        document.getElementById('pv').style.display='block';
-      };
-      r.readAsDataURL(e.target.files[0]);
-    }
+    if(e.target.files[0]){let r=new FileReader();r.onload=function(ev){photo=ev.target.result;document.getElementById('pv').src=photo;document.getElementById('pv').style.display='block'};r.readAsDataURL(e.target.files[0])}
   };
 };
 
-function toggleForm(){
-  document.getElementById('login-form').style.display=document.getElementById('login-form').style.display==='none'?'block':'none';
-  document.getElementById('signup-form').style.display=document.getElementById('signup-form').style.display==='none'?'block':'none';
-}
+function tg(){document.getElementById('login-form').style.display=document.getElementById('login-form').style.display==='none'?'block':'none';document.getElementById('signup-form').style.display=document.getElementById('signup-form').style.display==='none'?'block':'none'}
 
-function showError(m){
-  let e=document.getElementById('error');
-  e.textContent=m;
-  e.classList.add('show');
-  setTimeout(()=>e.classList.remove('show'),3000);
-}
+function err(m){let e=document.getElementById('err');e.textContent=m;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),3000)}
 
-function doLogin(){
-  let e=document.getElementById('login-email').value;
-  let p=document.getElementById('login-pass').value;
-  let u=db('u').find(x=>x.e===e&&x.p===p);
-  if(u){
-    user=u;
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').classList.add('active');
-    document.getElementById('user-info').textContent=user.n+' ('+user.r+')';
-    refreshAll();
-  }else{
-    showError('Email o contrasena incorrecta');
-  }
-}
+function login(){let e=document.getElementById('le').value;let p=document.getElementById('lp').value;let x=db('u').find(a=>a.e===e&&a.p===p);if(x){u=x;document.getElementById('login-screen').style.display='none';document.getElementById('app').classList.add('on');document.getElementById('ui').textContent=u.n+' ('+u.r+')';rf()}else err('Email o contrasena incorrecta')}
 
-function doSignup(){
-  let n=document.getElementById('signup-name').value;
-  let e=document.getElementById('signup-email').value;
-  let p=document.getElementById('signup-pass').value;
-  let r=document.getElementById('signup-role').value;
-  let b=document.getElementById('signup-biz').value;
-  
-  if(!n||!e||!p){showError('Completa todos');return}
-  if(db('u').find(x=>x.e===e)){showError('Email existe');return}
-  
-  let u={id:Math.max(...db('u').map(x=>x.id||0),0)+1,e,p,n,r,b:r==='Vendedor'?b:null};
-  db('u',[...db('u'),u]);
-  user=u;
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').classList.add('active');
-  document.getElementById('user-info').textContent=user.n+' ('+user.r+')';
-  refreshAll();
-}
+function signup(){let n=document.getElementById('sn').value;let e=document.getElementById('se').value;let p=document.getElementById('sp').value;let r=document.getElementById('sr').value;let b=document.getElementById('sb').value;if(!n||!e||!p){err('Completa todos');return}if(db('u').find(a=>a.e===e)){err('Email existe');return}let x={id:Math.max(...db('u').map(a=>a.id||0),0)+1,e,p,n,r,b:r==='Vendedor'?b:null};db('u',[...db('u'),x]);u=x;document.getElementById('login-screen').style.display='none';document.getElementById('app').classList.add('on');document.getElementById('ui').textContent=u.n+' ('+u.r+')';rf()}
 
-function doLogout(){
-  user=null;
-  document.getElementById('app').classList.remove('active');
-  document.getElementById('login-screen').style.display='flex';
-  document.getElementById('login-form').style.display='block';
-  document.getElementById('signup-form').style.display='none';
-  document.getElementById('login-email').value='cintia@test.com';
-  document.getElementById('login-pass').value='cintia123';
-}
+function logout(){u=null;document.getElementById('app').classList.remove('on');document.getElementById('login-screen').style.display='flex';document.getElementById('login-form').style.display='block';document.getElementById('signup-form').style.display='none';document.getElementById('le').value='cintia@test.com';document.getElementById('lp').value='cintia123'}
 
-function switchTab(t){
-  document.querySelectorAll('.module').forEach(m=>m.classList.remove('active'));
-  document.getElementById(t).classList.add('active');
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-}
+function sw(m){document.querySelectorAll('.mod').forEach(e=>e.classList.remove('on'));document.getElementById(m).classList.add('on');document.querySelectorAll('.tab').forEach(e=>e.classList.remove('on'));event.target.classList.add('on')}
 
-function addProduct(){
-  let n=document.getElementById('pn').value;
-  let pr=parseFloat(document.getElementById('pp').value);
-  let st=parseInt(document.getElementById('ps').value);
-  if(!n||!pr){alert('Nombre y precio');return}
-  let a=db('pr');
-  a.push({id:Math.max(...a.map(x=>x.id||0),0)+1,n,pr,st,f:photo,b:user.b||'General'});
-  db('pr',a);
-  document.getElementById('pn').value='';
-  document.getElementById('pp').value='';
-  document.getElementById('ps').value='1';
-  document.getElementById('pf').value='';
-  document.getElementById('pv').style.display='none';
-  photo='';
-  refreshAll();
-  alert('Producto agregado');
-}
+function ap(){let n=document.getElementById('pn').value;let pr=parseFloat(document.getElementById('pp').value);let st=parseInt(document.getElementById('ps').value);if(!n||!pr){alert('Nombre y precio');return}let a=db('pr');a.push({id:Math.max(...a.map(x=>x.id||0),0)+1,n,pr,st,f:photo,b:u.b||'General'});db('pr',a);document.getElementById('pn').value='';document.getElementById('pp').value='';document.getElementById('ps').value='1';document.getElementById('pf').value='';document.getElementById('pv').style.display='none';photo='';updateShareLink();rf();alert('Agregado')}
 
-function deleteProduct(id){
-  if(confirm('Eliminar?')){
-    db('pr',db('pr').filter(x=>x.id!==id));
-    refreshAll();
-  }
-}
+function dp(id){if(confirm('Eliminar?')){db('pr',db('pr').filter(x=>x.id!==id));updateShareLink();rf()}}
 
-function updateTotal(){
-  let id=parseInt(document.getElementById('vp').value);
-  let q=parseInt(document.getElementById('vq').value);
-  let p=db('pr').find(x=>x.id===id);
-  document.getElementById('vt').textContent=p?'$'+(p.pr*q).toFixed(2):'$0';
-}
+function ut(){let id=parseInt(document.getElementById('vp').value);let q=parseInt(document.getElementById('vq').value);let p=db('pr').find(x=>x.id===id);document.getElementById('vt').textContent=p?'$'+(p.pr*q).toFixed(2):'$0'}
 
-function confirmSale(){
-  let id=parseInt(document.getElementById('vp').value);
-  let q=parseInt(document.getElementById('vq').value);
-  let cl=document.getElementById('vc').value;
-  let m=document.getElementById('vm').value;
-  if(!id){alert('Selecciona producto');return}
-  let p=db('pr').find(x=>x.id===id);
-  let t=p.pr*q;
-  let a=db('v');
-  a.push({id:Math.max(...a.map(x=>x.id||0),0)+1,d:new Date().toISOString().split('T')[0],pro:p.n,q,pr:p.pr,t,cl,m,b:user.b||'General'});
-  db('v',a);
-  p.st-=q;
-  db('pr',db('pr'));
-  document.getElementById('vp').value='';
-  document.getElementById('vq').value='1';
-  document.getElementById('vc').value='';
-  document.getElementById('vt').textContent='$0';
-  refreshAll();
-  alert('Venta confirmada');
-}
+function cs(){let id=parseInt(document.getElementById('vp').value);let q=parseInt(document.getElementById('vq').value);let cl=document.getElementById('vc').value;let m=document.getElementById('vm').value;if(!id){alert('Selecciona');return}let p=db('pr').find(x=>x.id===id);let t=p.pr*q;let a=db('v');a.push({id:Math.max(...a.map(x=>x.id||0),0)+1,d:new Date().toISOString().split('T')[0],pro:p.n,q,pr:p.pr,t,cl,m,b:u.b||'General'});db('v',a);p.st-=q;db('pr',db('pr'));document.getElementById('vp').value='';document.getElementById('vq').value='1';document.getElementById('vc').value='';document.getElementById('vt').textContent='$0';rf();alert('OK')}
 
-function deleteSale(id){
-  if(confirm('Eliminar?')){
-    db('v',db('v').filter(x=>x.id!==id));
-    refreshAll();
-  }
-}
+function dvl(id){if(confirm('Eliminar?')){db('v',db('v').filter(x=>x.id!==id));rf()}}
 
-function addClient(){
-  let n=document.getElementById('cn').value;
-  let t=document.getElementById('ct').value;
-  if(!n||!t){alert('Nombre y telefono');return}
-  let a=db('c');
-  a.push({id:Math.max(...a.map(x=>x.id||0),0)+1,n,t,b:user.b||'General'});
-  db('c',a);
-  document.getElementById('cn').value='';
-  document.getElementById('ct').value='';
-  refreshAll();
-  alert('Cliente agregado');
-}
+function ac(){let n=document.getElementById('cn').value;let t=document.getElementById('ct').value;if(!n||!t){alert('Nombre y tel');return}let a=db('c');a.push({id:Math.max(...a.map(x=>x.id||0),0)+1,n,t,b:u.b||'General'});db('c',a);document.getElementById('cn').value='';document.getElementById('ct').value='';rf();alert('OK')}
 
-function deleteClient(id){
-  if(confirm('Eliminar?')){
-    db('c',db('c').filter(x=>x.id!==id));
-    refreshAll();
-  }
-}
+function dcl(id){if(confirm('Eliminar?')){db('c',db('c').filter(x=>x.id!==id));rf()}}
 
-function refreshAll(){
-  let pr=db('pr').filter(x=>user.r==='Dueno'?true:x.b===user.b);
-  let v=db('v').filter(x=>user.r==='Dueno'?true:x.b===user.b);
-  let c=db('c').filter(x=>user.r==='Dueno'?true:x.b===user.b);
-  
-  let td=new Date().toISOString().split('T')[0];
-  let ts=v.filter(x=>x.d===td).reduce((a,b)=>a+b.t,0);
-  let ta=v.reduce((a,b)=>a+b.t,0);
-  document.getElementById('stat-today').textContent='$'+ts.toFixed(2);
-  document.getElementById('stat-month').textContent='$'+ta.toFixed(2);
-  document.getElementById('stat-prod').textContent=pr.length;
-  document.getElementById('stat-cli').textContent=c.length;
-  
-  let html='<thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Accion</th></tr></thead><tbody>';
-  pr.forEach(x=>{html+='<tr><td>'+(x.f?'<img src="'+x.f+'" class="img-preview">':'')+'</td><td>'+x.n+'</td><td>$'+x.pr.toFixed(2)+'</td><td><span class="badge '+(x.st>0?'badge-ok':'badge-no')+'">'+x.st+'</span></td><td><button class="btn btn-small" onclick="deleteProduct('+x.id+')">Eliminar</button></td></tr>'});
-  html+='</tbody>';
-  document.getElementById('pt').innerHTML=html;
-  
-  html='<thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Cliente</th><th>Metodo</th><th>Accion</th></tr></thead><tbody>';
-  v.forEach(x=>{html+='<tr><td>'+x.d+'</td><td>'+x.pro+'</td><td>'+x.q+'</td><td>$'+x.t.toFixed(2)+'</td><td>'+(x.cl||'-')+'</td><td>'+x.m+'</td><td><button class="btn btn-small" onclick="deleteSale('+x.id+')">Eliminar</button></td></tr>'});
-  html+='</tbody>';
-  document.getElementById('vl').innerHTML=html;
-  
-  html='<thead><tr><th>Nombre</th><th>Telefono</th><th>Accion</th></tr></thead><tbody>';
-  c.forEach(x=>{html+='<tr><td>'+x.n+'</td><td>'+x.t+'</td><td><button class="btn btn-small" onclick="deleteClient('+x.id+')">Eliminar</button></td></tr>'});
-  html+='</tbody>';
-  document.getElementById('ct').innerHTML=html;
-  
-  html='<option>-- Selecciona producto --</option>';
-  pr.forEach(x=>{html+='<option value="'+x.id+'">'+x.n+' ($'+x.pr.toFixed(2)+') Stock:'+x.st+'</option>'});
-  document.getElementById('vp').innerHTML=html;
-  
-  html='<option>-- Cliente (opcional) --</option>';
-  c.forEach(x=>{html+='<option value="'+x.n+'">'+x.n+'</option>'});
-  document.getElementById('vc').innerHTML=html;
-}
+function updateShareLink(){let biz=u.b||'General';let txt='Catalogo de '+biz+' - Ver aqui: '+window.location.origin+window.location.pathname+'?cat='+biz.replace(/\s+/g,'_');document.getElementById('share-link').value=txt}
+
+function copyLink(){document.getElementById('share-link').select();document.execCommand('copy');alert('Link copiado')}
+
+function shareWhatsapp(){let txt=document.getElementById('share-link').value;window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank')}
+
+function rf(){let pr=db('pr').filter(x=>u.r==='Dueno'?true:x.b===u.b);let v=db('v').filter(x=>u.r==='Dueno'?true:x.b===u.b);let c=db('c').filter(x=>u.r==='Dueno'?true:x.b===u.b);let td=new Date().toISOString().split('T')[0];let ts=v.filter(x=>x.d===td).reduce((a,b)=>a+b.t,0);let ta=v.reduce((a,b)=>a+b.t,0);document.getElementById('t1').textContent='$'+ts.toFixed(2);document.getElementById('t2').textContent='$'+ta.toFixed(2);document.getElementById('t3').textContent=pr.length;document.getElementById('t4').textContent=c.length;let html='<thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>X</th></tr></thead><tbody>';pr.forEach(x=>{html+='<tr><td>'+(x.f?'<img src="'+x.f+'" class="img">':'')+'</td><td>'+x.n+'</td><td>$'+x.pr.toFixed(2)+'</td><td><span class="bd '+(x.st>0?'bd1':'bd2')+'">'+x.st+'</span></td><td><button class="btn bs" onclick="dp('+x.id+')">X</button></td></tr>'});html+='</tbody>';document.getElementById('pt').innerHTML=html;html='<thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Cliente</th><th>Metodo</th><th>X</th></tr></thead><tbody>';v.forEach(x=>{html+='<tr><td>'+x.d+'</td><td>'+x.pro+'</td><td>'+x.q+'</td><td>$'+x.t.toFixed(2)+'</td><td>'+(x.cl||'-')+'</td><td>'+x.m+'</td><td><button class="btn bs" onclick="dvl('+x.id+')">X</button></td></tr>'});html+='</tbody>';document.getElementById('vl').innerHTML=html;html='<thead><tr><th>Nombre</th><th>Telefono</th><th>X</th></tr></thead><tbody>';c.forEach(x=>{html+='<tr><td>'+x.n+'</td><td>'+x.t+'</td><td><button class="btn bs" onclick="dcl('+x.id+')">X</button></td></tr>'});html+='</tbody>';document.getElementById('cl-table').innerHTML=html;html='<option>-- Producto --</option>';pr.forEach(x=>{html+='<option value="'+x.id+'">'+x.n+' ($'+x.pr.toFixed(2)+') Stock:'+x.st+'</option>'});document.getElementById('vp').innerHTML=html;html='<option>-- Cliente --</option>';c.forEach(x=>{html+='<option value="'+x.n+'">'+x.n+'</option>'});document.getElementById('vc').innerHTML=html;updateShareLink()}
 </script>
 </body>
 </html>
