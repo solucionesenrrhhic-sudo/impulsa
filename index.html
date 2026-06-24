@@ -3,98 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Impulsa NA - Gestión en la Nube</title>
+<title>Impulsa NA - Gestión para Emprendedores</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5}
 
-/* ===== MODO CATÁLOGO PÚBLICO ===== */
-#catalogContainer{display:none;min-height:100vh;background:#fff}
-#catalogContainer.active{display:block}
-
-.catalogHeader{background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;padding:20px;text-align:center}
-.catalogHeader h1{font-size:24px;margin-bottom:5px}
-.catalogHeader p{font-size:13px;opacity:0.9}
-
-.catalogContent{max-width:900px;margin:0 auto;padding:20px}
-.catalogGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;margin-top:20px}
-
-.catalogCard{background:white;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:transform 0.2s}
-.catalogCard:hover{transform:translateY(-5px);box-shadow:0 4px 16px rgba(0,0,0,0.15)}
-
-.catalogCardImg{width:100%;height:180px;background:#f0f0f0;display:flex;align-items:center;justify-content:center}
-.catalogCardImg img{width:100%;height:100%;object-fit:cover}
-
-.catalogCardBody{padding:15px}
-.catalogCardBody h3{color:#5a3a3a;margin-bottom:8px;font-size:14px}
-.catalogCardBody p{color:#666;font-size:12px;margin-bottom:10px}
-.catalogCardPrice{font-size:18px;font-weight:700;color:#5a3a3a;margin-bottom:10px}
-.catalogCardStock{font-size:11px;color:#999;margin-bottom:10px}
-
-.btnContactWhatsApp{width:100%;background:#25d366;color:white;border:none;padding:10px;border-radius:4px;cursor:pointer;font-weight:600;font-size:13px}
-.btnContactWhatsApp:hover{background:#20ba5a}
-
-.catalogEmpty{text-align:center;padding:40px;color:#999}
-.catalogLoading{text-align:center;padding:40px;color:#666}
-
-.catalogFooter{text-align:center;padding:20px;color:#999;font-size:12px}
-
-/* ===== MODO LOGIN/APP ===== */
-#loginContainer{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);padding:20px}
+#loginSection{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);padding:20px}
 .loginBox{background:white;padding:40px;border-radius:12px;box-shadow:0 10px 50px rgba(0,0,0,0.3);width:100%;max-width:400px}
 .loginBox h1{text-align:center;color:#5a3a3a;margin-bottom:5px;font-size:28px}
 .loginBox p{text-align:center;color:#999;margin-bottom:30px;font-size:13px}
 .formGroup{margin-bottom:15px}
-.formGroup label{display:block;margin-bottom:5px;color:#333;font-weight:500;font-size:13px}
-.formGroup input,.formGroup select{width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;font-size:13px}
-.formGroup input:focus,.formGroup select:focus{outline:none;border-color:#5a3a3a}
-.btnPrimary{width:100%;padding:11px;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;border:none;border-radius:5px;font-weight:600;cursor:pointer;font-size:14px;margin-bottom:10px}
-.btnPrimary:hover{transform:translateY(-1px);opacity:0.95}
-.btnPrimary:disabled{opacity:0.6;cursor:not-allowed}
+.formGroup label{display:block;margin-bottom:5px;color:#333;font-weight:500}
+.formGroup input{width:100%;padding:10px;border:1px solid #ddd;border-radius:5px;font-size:13px}
+.formGroup input:focus{outline:none;border-color:#5a3a3a}
+.btnLogin{width:100%;padding:11px;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;border:none;border-radius:5px;font-weight:600;cursor:pointer;font-size:14px}
+.btnLogin:hover{opacity:0.95}
 .errorMsg{background:#fdd;color:#c33;padding:10px;border-radius:5px;margin-bottom:15px;font-size:12px;display:none}
 .errorMsg.show{display:block}
-.toggleText{text-align:center;margin-top:15px;color:#999;font-size:12px}
-.toggleText a{color:#5a3a3a;cursor:pointer;font-weight:500}
-.formSectionToggle{display:none}
-.formSectionToggle.active{display:block}
 
-/* APP */
-#appContainer{display:none;min-height:100vh;background:#f5f5f5}
-#appContainer.active{display:block}
+#appSection{display:none;min-height:100vh;background:#f5f5f5}
+#appSection.active{display:block}
+
 .header{background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;padding:15px 20px;display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:18px}
 .header p{font-size:11px;opacity:0.8}
 .btnLogout{background:rgba(255,255,255,0.2);color:white;border:1px solid white;padding:6px 12px;border-radius:3px;cursor:pointer;font-size:12px}
 .btnLogout:hover{background:rgba(255,255,255,0.3)}
 
-.tabNav{display:flex;gap:5px;padding:10px 20px;background:white;border-bottom:1px solid #ddd;overflow-x:auto}
-.tabBtn{padding:8px 15px;background:0;border:0;cursor:pointer;color:#666;font-size:12px;border-bottom:2px solid transparent;transition:all 0.2s}
+.navTabs{display:flex;gap:5px;padding:10px 20px;background:white;border-bottom:1px solid #ddd;overflow-x:auto}
+.tabBtn{padding:8px 15px;background:0;border:0;cursor:pointer;color:#666;font-size:12px;border-bottom:2px solid transparent}
 .tabBtn.active{color:#5a3a3a;border-bottom-color:#5a3a3a}
-.content{padding:15px 20px;max-width:1000px;margin:0 auto}
 
-.module{display:none}
-.module.active{display:block}
+.mainContent{padding:20px;max-width:1000px;margin:0 auto}
+.tabContent{display:none}
+.tabContent.active{display:block}
 
 .card{background:white;padding:15px;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);margin-bottom:15px}
 .card h2{color:#5a3a3a;margin-bottom:12px;font-size:16px;border-bottom:2px solid #f0e68c;padding-bottom:8px}
-.card h3{color:#5a3a3a;margin:15px 0 10px;font-size:14px}
 
 .statsGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px}
 .statCard{background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;padding:15px;border-radius:6px;text-align:center}
 .statCard .value{font-size:20px;font-weight:700}
 .statCard .label{font-size:10px;opacity:0.9;margin-top:5px}
 
-.inputGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:10px}
-input,select,textarea{padding:8px;border:1px solid #ddd;border-radius:4px;font-size:13px;width:100%;font-family:inherit}
-input:focus,select:focus,textarea:focus{outline:none;border-color:#5a3a3a}
+.inputGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:10px}
+input,select{padding:8px;border:1px solid #ddd;border-radius:4px;font-size:13px;width:100%}
+input:focus,select:focus{outline:none;border-color:#5a3a3a}
 
-.btnSmall{padding:6px 10px;font-size:11px;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;border:none;cursor:pointer;border-radius:3px;margin-right:3px}
-.btnSmall:hover{opacity:0.9}
-.btnWhatsApp{background:#25d366;color:white;padding:8px 12px;font-size:12px;border:none;border-radius:4px;cursor:pointer;margin-right:5px}
+.btnAction{padding:8px 15px;font-size:11px;background:linear-gradient(135deg,#5a3a3a 0%,#3d2626 100%);color:white;border:none;cursor:pointer;border-radius:3px;margin-right:3px;margin-bottom:10px}
+.btnAction:hover{opacity:0.9}
+
+.btnWhatsApp{background:#25d366;color:white;padding:8px 12px;font-size:12px;border:none;border-radius:4px;cursor:pointer}
 .btnWhatsApp:hover{background:#20ba5a}
-.btnCopy{background:#007bff;color:white;padding:8px 12px;font-size:12px;border:none;border-radius:4px;cursor:pointer;}
-.btnCopy:hover{background:#0056b3}
 
 table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
 table th{background:#f0e68c;padding:8px;text-align:left;border-bottom:1px solid #ddd;color:#5a3a3a;font-weight:600}
@@ -104,123 +65,55 @@ table td{padding:8px;border-bottom:1px solid #eee}
 .badgeGreen{background:#d4edda;color:#155724}
 .badgeRed{background:#f8d7da;color:#721c24}
 
-.imgSmall{max-width:35px;max-height:35px;border-radius:3px}
-
-.totalText{font-size:16px;font-weight:700;color:#5a3a3a;margin:10px 0}
-
 .shareBox{background:#f9f9f9;padding:12px;border-radius:5px;border-left:4px solid #25d366;margin-top:10px}
 .shareBox p{font-size:12px;color:#666;margin-bottom:8px}
 .shareControls{display:grid;grid-template-columns:1fr auto auto;gap:5px}
 .shareControls input{grid-column:1}
 .shareControls button{grid-column:auto}
-
-.infoText{font-size:12px;color:#666;margin-bottom:15px}
-.success{color:#155724;background:#d4edda;padding:10px;border-radius:5px;margin-bottom:10px;font-size:12px;display:none}
-.success.show{display:block}
+.btnCopy{background:#007bff;color:white;padding:8px 12px;font-size:12px;border:none;border-radius:4px;cursor:pointer}
+.btnCopy:hover{background:#0056b3}
 </style>
 </head>
 <body>
 
-<!-- ===== MODO CATÁLOGO PÚBLICO ===== -->
-<div id="catalogContainer">
-  <div class="catalogHeader">
-    <h1>Impulsa NA</h1>
-    <p id="vendorName"></p>
-  </div>
-  <div class="catalogContent">
-    <div id="catalogLoading" class="catalogLoading">Cargando catálogo...</div>
-    <div id="catalogGrid" class="catalogGrid"></div>
-    <div id="catalogEmpty" class="catalogEmpty" style="display:none">
-      <p>Este vendedor aún no tiene productos</p>
-    </div>
-  </div>
-  <div class="catalogFooter">
-    <p>Impulsa NA - Gestión para emprendedores 🚀</p>
-  </div>
-</div>
-
-<!-- ===== MODO LOGIN/APP ===== -->
-
-<!-- LOGIN SECTION -->
-<div id="loginContainer">
+<!-- LOGIN -->
+<div id="loginSection">
   <div class="loginBox">
     <h1>Impulsa NA</h1>
     <p>Gestión en la nube para emprendedores</p>
     <div class="errorMsg" id="errorMsg"></div>
-    <div class="success" id="successMsg"></div>
-
-    <!-- LOGIN FORM -->
-    <div id="loginForm" class="formSectionToggle active">
-      <h3 style="text-align:center;color:#5a3a3a;margin-bottom:20px;font-size:16px">Ingresar</h3>
-      <div class="formGroup">
-        <label>Email</label>
-        <input type="email" id="loginEmail" placeholder="tu@email.com">
-      </div>
-      <div class="formGroup">
-        <label>Contraseña</label>
-        <input type="password" id="loginPassword" placeholder="••••••••">
-      </div>
-      <button class="btnPrimary" id="btnLogin" onclick="handleLogin()">Ingresar</button>
-      <div class="toggleText">¿No tienes cuenta? <a onclick="toggleForms()">Crea una</a></div>
+    <div class="formGroup">
+      <label>Email</label>
+      <input type="email" id="emailInput" value="cintia@test.com">
     </div>
-
-    <!-- SIGNUP FORM -->
-    <div id="signupForm" class="formSectionToggle">
-      <h3 style="text-align:center;color:#5a3a3a;margin-bottom:20px;font-size:16px">Crear cuenta</h3>
-      <div class="formGroup">
-        <label>Nombre</label>
-        <input type="text" id="signupName" placeholder="Tu nombre">
-      </div>
-      <div class="formGroup">
-        <label>Email</label>
-        <input type="email" id="signupEmail" placeholder="tu@email.com">
-      </div>
-      <div class="formGroup">
-        <label>Contraseña</label>
-        <input type="password" id="signupPassword" placeholder="••••••••">
-      </div>
-      <div class="formGroup">
-        <label>Rol</label>
-        <select id="signupRole" onchange="toggleBusinessField()">
-          <option value="Dueno">Dueño</option>
-          <option value="Vendedor">Vendedor</option>
-        </select>
-      </div>
-      <div class="formGroup" id="businessField" style="display:none">
-        <label>Nombre del negocio</label>
-        <input type="text" id="signupBusiness" placeholder="Ej: Los 3 Ases">
-      </div>
-      <button class="btnPrimary" id="btnSignup" onclick="handleSignup()">Crear cuenta</button>
-      <div class="toggleText">¿Ya tienes cuenta? <a onclick="toggleForms()">Inicia sesión</a></div>
+    <div class="formGroup">
+      <label>Contraseña</label>
+      <input type="password" id="passwordInput" value="cintia123">
     </div>
+    <button class="btnLogin" onclick="doLogin()">Ingresar</button>
   </div>
 </div>
 
-<!-- APP SECTION -->
-<div id="appContainer">
-  <!-- HEADER -->
+<!-- APP -->
+<div id="appSection">
   <div class="header">
     <div>
       <h1>Impulsa NA</h1>
-      <p id="userInfo"></p>
+      <p id="userHeader"></p>
     </div>
-    <button class="btnLogout" onclick="handleLogout()">Salir</button>
+    <button class="btnLogout" onclick="doLogout()">Salir</button>
   </div>
 
-  <!-- TAB NAVIGATION -->
-  <div class="tabNav">
-    <button class="tabBtn active" onclick="switchModule('inicio', event)">Inicio</button>
-    <button class="tabBtn" onclick="switchModule('vendedores', event)" id="vendedoresTab" style="display:none">Vendedores</button>
-    <button class="tabBtn" onclick="switchModule('catalogo', event)">Catálogo</button>
-    <button class="tabBtn" onclick="switchModule('ventas', event)">Ventas</button>
-    <button class="tabBtn" onclick="switchModule('clientes', event)">Clientes</button>
+  <div class="navTabs">
+    <button class="tabBtn active" onclick="switchTab('inicio', this)">Inicio</button>
+    <button class="tabBtn" onclick="switchTab('productos', this)">Catálogo</button>
+    <button class="tabBtn" onclick="switchTab('ventas', this)">Ventas</button>
+    <button class="tabBtn" onclick="switchTab('clientes', this)">Clientes</button>
   </div>
 
-  <!-- CONTENT AREA -->
-  <div class="content">
-
-    <!-- MODULO: INICIO -->
-    <div id="inicio" class="module active">
+  <div class="mainContent">
+    <!-- INICIO -->
+    <div id="inicio" class="tabContent active">
       <div class="card">
         <h2>Resumen</h2>
         <div class="statsGrid">
@@ -244,49 +137,22 @@ table td{padding:8px;border-bottom:1px solid #eee}
       </div>
     </div>
 
-    <!-- MODULO: VENDEDORES (solo Dueño) -->
-    <div id="vendedores" class="module">
-      <div class="card">
-        <h2>Mis Vendedores</h2>
-        <p class="infoText">Crea cuentas para tus vendedores. Ellos verán solo su negocio.</p>
-        <div class="success" id="vendorSuccess"></div>
-        <div class="inputGrid">
-          <input type="text" id="vendorName" placeholder="Nombre del vendedor">
-          <input type="email" id="vendorEmail" placeholder="Email">
-          <input type="password" id="vendorPassword" placeholder="Contraseña">
-          <input type="text" id="vendorBusiness" placeholder="Nombre del negocio">
-        </div>
-        <button class="btnPrimary" onclick="createVendor()">Crear vendedor</button>
-        
-        <h3>Vendedores activos:</h3>
-        <table id="vendorTable">
-          <thead><tr><th>Nombre</th><th>Email</th><th>Negocio</th><th>Acción</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- MODULO: CATALOGO -->
-    <div id="catalogo" class="module">
+    <!-- PRODUCTOS -->
+    <div id="productos" class="tabContent">
       <div class="card">
         <h2>Nuevo Producto</h2>
-        <div class="success" id="productSuccess"></div>
         <div class="inputGrid">
-          <input type="text" id="productName" placeholder="Nombre del producto">
-          <input type="number" id="productPrice" placeholder="Precio" step="0.01">
-          <input type="number" id="productStock" value="1" placeholder="Stock">
+          <input type="text" id="prodName" placeholder="Nombre del producto">
+          <input type="number" id="prodPrice" placeholder="Precio" step="0.01">
+          <input type="number" id="prodStock" value="1" placeholder="Stock">
         </div>
-        <div class="inputGrid">
-          <input type="file" id="productPhoto" accept="image/*">
-        </div>
-        <img id="productPreview" class="imgSmall" style="display:none;margin-top:10px">
-        <button class="btnPrimary" onclick="addProduct()">Agregar Producto</button>
+        <button class="btnAction" onclick="addProduct()">Agregar Producto</button>
       </div>
 
       <div class="card">
         <h2>Mis Productos</h2>
         <table id="productTable">
-          <thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Acción</th></tr></thead>
+          <thead><tr><th>Nombre</th><th>Precio</th><th>Stock</th><th>Acción</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -298,58 +164,49 @@ table td{padding:8px;border-bottom:1px solid #eee}
           <div class="shareControls">
             <input type="text" id="catalogLink" readonly style="background:#f0f0f0">
             <button class="btnCopy" onclick="copyCatalogLink()">📋 Copiar</button>
-            <button class="btnWhatsApp" onclick="shareViWhatsApp()">💬 WhatsApp</button>
+            <button class="btnWhatsApp" onclick="shareViaWhatsApp()">💬 WhatsApp</button>
           </div>
-          <p style="font-size:11px;color:#999;margin-top:8px">✅ Los clientes acceden sin login. Solo ven tu catálogo.</p>
+          <p style="font-size:11px;color:#999;margin-top:8px">✅ Los clientes acceden sin login</p>
         </div>
       </div>
     </div>
 
-    <!-- MODULO: VENTAS -->
-    <div id="ventas" class="module">
+    <!-- VENTAS -->
+    <div id="ventas" class="tabContent">
       <div class="card">
         <h2>Nueva Venta</h2>
-        <div class="success" id="saleSuccess"></div>
         <div class="inputGrid">
-          <select id="saleProduct" onchange="calculateSaleTotal()">
+          <select id="saleProduct">
             <option>-- Selecciona producto --</option>
           </select>
-          <input type="number" id="saleQuantity" value="1" min="1" onchange="calculateSaleTotal()">
-        </div>
-        <div class="inputGrid">
-          <select id="saleClient">
-            <option>-- Selecciona cliente --</option>
-          </select>
+          <input type="number" id="saleQty" value="1" min="1">
           <select id="saleMethod">
             <option>Efectivo</option>
             <option>Tarjeta</option>
             <option>Transferencia</option>
-            <option>Otro</option>
           </select>
         </div>
-        <div class="totalText">Total: <span id="saleTotal">$0</span></div>
-        <button class="btnPrimary" onclick="confirmSale()">Confirmar Venta</button>
+        <button class="btnAction" onclick="addSale()">Registrar Venta</button>
       </div>
 
       <div class="card">
-        <h2>Historial de ventas</h2>
+        <h2>Historial de Ventas</h2>
         <table id="saleTable">
-          <thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Cliente</th><th>Método</th><th>Acción</th></tr></thead>
+          <thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Método</th><th>Acción</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
     </div>
 
-    <!-- MODULO: CLIENTES -->
-    <div id="clientes" class="module">
+    <!-- CLIENTES -->
+    <div id="clientes" class="tabContent">
       <div class="card">
         <h2>Nuevo Cliente</h2>
-        <div class="success" id="clientSuccess"></div>
         <div class="inputGrid">
           <input type="text" id="clientName" placeholder="Nombre">
           <input type="tel" id="clientPhone" placeholder="Teléfono">
         </div>
-        <button class="btnPrimary" onclick="addClient()">Guardar Cliente</button>
+        <button class="btnAction" onclick="addClient()">Guardar Cliente</button>
       </div>
 
       <div class="card">
@@ -360,186 +217,55 @@ table td{padding:8px;border-bottom:1px solid #eee}
         </table>
       </div>
     </div>
-
   </div>
 </div>
 
 <script>
-// ===== SUPABASE CONFIG =====
+// ===== SUPABASE INIT =====
 const SUPABASE_URL = 'https://uccnvvidayqcitxcqtil.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_VHu30FNRuQisScJTVNd_kQ_BKWKCfh9';
+const SUPABASE_KEY = 'sb_publishable_VHu30FNRuQisScJTVNd_kQ_BKWKCfh9';
 
-const { createClient } = window.supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// ===== STATE =====
+let db = null;
 let currentUser = null;
-let productPhotoData = '';
-let isPublicCatalog = false;
-let publicVendorEmail = '';
 
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', function() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const vendorParam = urlParams.get('vendor');
-
-  if (vendorParam) {
-    // MODO CATÁLOGO PÚBLICO
-    isPublicCatalog = true;
-    publicVendorEmail = vendorParam;
-    document.getElementById('catalogContainer').classList.add('active');
-    loadPublicCatalog(vendorParam);
-  } else {
-    // MODO LOGIN/APP
-    document.getElementById('loginContainer').style.display = 'flex';
-  }
-
-  // Photo input listener
-  const photoInput = document.getElementById('productPhoto');
-  if (photoInput) {
-    photoInput.addEventListener('change', function(e) {
-      if (e.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          productPhotoData = event.target.result;
-          const preview = document.getElementById('productPreview');
-          preview.src = productPhotoData;
-          preview.style.display = 'block';
-        };
-        reader.readAsDataURL(e.target.files[0]);
-      }
-    });
+window.addEventListener('load', function() {
+  if (window.supabase) {
+    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   }
 });
 
-// ===== PUBLIC CATALOG =====
-async function loadPublicCatalog(vendorEmail) {
-  try {
-    // Get vendor info
-    const { data: vendor } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', vendorEmail)
-      .single();
-
-    if (!vendor) {
-      document.getElementById('catalogLoading').style.display = 'none';
-      document.getElementById('catalogEmpty').style.display = 'block';
-      document.getElementById('vendorName').textContent = 'Vendedor no encontrado';
-      return;
-    }
-
-    document.getElementById('vendorName').textContent = vendor.business_name || vendor.name;
-
-    // Get products
-    const { data: products } = await supabase
-      .from('products')
-      .select('*')
-      .eq('user_id', vendor.id)
-      .order('created_at', { ascending: false });
-
-    document.getElementById('catalogLoading').style.display = 'none';
-
-    if (!products || products.length === 0) {
-      document.getElementById('catalogEmpty').style.display = 'block';
-      return;
-    }
-
-    // Render products
-    const grid = document.getElementById('catalogGrid');
-    grid.innerHTML = '';
-    
-    products.forEach(product => {
-      const card = document.createElement('div');
-      card.className = 'catalogCard';
-      
-      let stockText = product.stock > 0 ? `Stock: ${product.stock}` : '❌ Agotado';
-      let btnDisabled = product.stock > 0 ? '' : 'disabled';
-      
-      card.innerHTML = `
-        <div class="catalogCardImg">
-          ${product.photo ? `<img src="${product.photo}" alt="${product.name}">` : '<span style="color:#999">Sin foto</span>'}
-        </div>
-        <div class="catalogCardBody">
-          <h3>${product.name}</h3>
-          <div class="catalogCardPrice">$${product.price.toFixed(2)}</div>
-          <div class="catalogCardStock">${stockText}</div>
-          <button class="btnContactWhatsApp" onclick="contactVendor('${product.name}', '${vendor.name}', '${vendor.email}')" ${btnDisabled}>
-            💬 Consultar por WhatsApp
-          </button>
-        </div>
-      `;
-      
-      grid.appendChild(card);
-    });
-
-  } catch (error) {
-    console.error('Error:', error);
-    document.getElementById('catalogLoading').textContent = 'Error al cargar el catálogo';
-  }
-}
-
-function contactVendor(productName, vendorName, vendorEmail) {
-  const message = encodeURIComponent(`Hola ${vendorName}! 👋\n\nMe interesa el producto: ${productName}\n\n¿Podés darme más info?`);
-  window.open('https://wa.me/?text=' + message, '_blank');
-}
-
-// ===== UTILITY FUNCTIONS =====
-function showError(message) {
-  const errorDiv = document.getElementById('errorMsg');
-  errorDiv.textContent = '❌ ' + message;
-  errorDiv.classList.add('show');
-  setTimeout(() => errorDiv.classList.remove('show'), 4000);
-}
-
-function showSuccess(message, elementId = 'successMsg') {
-  const div = document.getElementById(elementId);
-  div.textContent = '✅ ' + message;
-  div.classList.add('show');
-  setTimeout(() => div.classList.remove('show'), 3000);
-}
-
-function toggleForms() {
-  document.getElementById('loginForm').classList.toggle('active');
-  document.getElementById('signupForm').classList.toggle('active');
-}
-
-function toggleBusinessField() {
-  const role = document.getElementById('signupRole').value;
-  document.getElementById('businessField').style.display = role === 'Vendedor' ? 'block' : 'none';
-}
-
-// ===== AUTH FUNCTIONS =====
-async function handleLogin() {
-  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-  const password = document.getElementById('loginPassword').value;
+// ===== AUTH =====
+async function doLogin() {
+  const email = document.getElementById('emailInput').value.trim().toLowerCase();
+  const password = document.getElementById('passwordInput').value;
 
   if (!email || !password) {
     showError('Completa email y contraseña');
     return;
   }
 
+  if (!db) {
+    showError('Supabase no está cargado');
+    return;
+  }
+
   try {
-    const { data: users, error } = await supabase
+    const { data: user, error } = await db
       .from('users')
       .select('*')
       .eq('email', email)
       .eq('password', password)
       .single();
 
-    if (error || !users) {
+    if (error || !user) {
       showError('Email o contraseña incorrecta');
       return;
     }
 
-    currentUser = users;
-    document.getElementById('loginContainer').style.display = 'none';
-    document.getElementById('appContainer').classList.add('active');
-    
-    if (currentUser.role === 'Dueno') {
-      document.getElementById('vendedoresTab').style.display = 'block';
-    }
-    
+    currentUser = user;
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('appSection').classList.add('active');
+    document.getElementById('userHeader').textContent = currentUser.name + ' (' + currentUser.role + ')';
     refreshUI();
 
   } catch (error) {
@@ -547,356 +273,153 @@ async function handleLogin() {
   }
 }
 
-async function handleSignup() {
-  const name = document.getElementById('signupName').value.trim();
-  const email = document.getElementById('signupEmail').value.trim().toLowerCase();
-  const password = document.getElementById('signupPassword').value;
-  const role = document.getElementById('signupRole').value;
-  const business = document.getElementById('signupBusiness').value.trim();
-
-  if (!name || !email || !password) {
-    showError('Completa todos los campos requeridos');
-    return;
-  }
-
-  if (role === 'Vendedor' && !business) {
-    showError('Los vendedores deben especificar su negocio');
-    return;
-  }
-
-  if (password.length < 6) {
-    showError('La contraseña debe tener al menos 6 caracteres');
-    return;
-  }
-
-  try {
-    const { data: existing } = await supabase
-      .from('users')
-      .select('id')
-      .eq('email', email);
-
-    if (existing && existing.length > 0) {
-      showError('El email ya está registrado');
-      return;
-    }
-
-    const { data: newUser, error: insertError } = await supabase
-      .from('users')
-      .insert([{
-        email,
-        password,
-        name,
-        role,
-        business_name: role === 'Vendedor' ? business : null
-      }])
-      .select()
-      .single();
-
-    if (insertError) throw insertError;
-
-    currentUser = newUser;
-    showSuccess('¡Cuenta creada! Iniciando sesión...', 'successMsg');
-    
-    setTimeout(() => {
-      document.getElementById('loginContainer').style.display = 'none';
-      document.getElementById('appContainer').classList.add('active');
-      if (currentUser.role === 'Dueno') {
-        document.getElementById('vendedoresTab').style.display = 'block';
-      }
-      refreshUI();
-    }, 1500);
-
-  } catch (error) {
-    showError('Error: ' + error.message);
-  }
-}
-
-async function handleLogout() {
+function doLogout() {
   if (!confirm('¿Cerrar sesión?')) return;
-  
   currentUser = null;
-  productPhotoData = '';
-  document.getElementById('appContainer').classList.remove('active');
-  document.getElementById('loginContainer').style.display = 'flex';
-  document.getElementById('loginForm').classList.add('active');
-  document.getElementById('signupForm').classList.remove('active');
-  document.getElementById('loginEmail').value = '';
-  document.getElementById('loginPassword').value = '';
+  document.getElementById('appSection').classList.remove('active');
+  document.getElementById('loginSection').style.display = 'flex';
 }
 
-// ===== MODULE SWITCHING =====
-function switchModule(moduleName, event) {
-  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ===== UI =====
+function switchTab(tabName, btn) {
+  document.querySelectorAll('.tabContent').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tabBtn').forEach(b => b.classList.remove('active'));
-
-  document.getElementById(moduleName).classList.add('active');
-  event.target.classList.add('active');
+  document.getElementById(tabName).classList.add('active');
+  btn.classList.add('active');
 }
 
-// ===== VENDEDOR FUNCTIONS =====
-async function createVendor() {
-  const name = document.getElementById('vendorName').value.trim();
-  const email = document.getElementById('vendorEmail').value.trim().toLowerCase();
-  const password = document.getElementById('vendorPassword').value;
-  const business = document.getElementById('vendorBusiness').value.trim();
-
-  if (!name || !email || !password || !business) {
-    showError('Completa todos los campos');
-    return;
-  }
-
-  try {
-    const { data: existing } = await supabase
-      .from('users')
-      .select('id')
-      .eq('email', email);
-
-    if (existing && existing.length > 0) {
-      showError('El email ya existe');
-      return;
-    }
-
-    const { error } = await supabase
-      .from('users')
-      .insert([{
-        email,
-        password,
-        name,
-        role: 'Vendedor',
-        business_name: business
-      }]);
-
-    if (error) throw error;
-
-    document.getElementById('vendorName').value = '';
-    document.getElementById('vendorEmail').value = '';
-    document.getElementById('vendorPassword').value = '';
-    document.getElementById('vendorBusiness').value = '';
-
-    showSuccess(`Vendedor creado: ${name} (${email})`, 'vendorSuccess');
-    refreshUI();
-  } catch (error) {
-    showError('Error: ' + error.message);
-  }
-}
-
-async function deleteVendor(vendorId) {
-  if (!confirm('¿Eliminar este vendedor?')) return;
-
-  try {
-    const { error } = await supabase
-      .from('users')
-      .delete()
-      .eq('id', vendorId);
-
-    if (error) throw error;
-    showSuccess('Vendedor eliminado', 'vendorSuccess');
-    refreshUI();
-  } catch (error) {
-    showError('Error: ' + error.message);
-  }
-}
-
-// ===== PRODUCT FUNCTIONS =====
+// ===== PRODUCTS =====
 async function addProduct() {
-  const name = document.getElementById('productName').value.trim();
-  const price = parseFloat(document.getElementById('productPrice').value);
-  const stock = parseInt(document.getElementById('productStock').value) || 1;
+  const name = document.getElementById('prodName').value.trim();
+  const price = parseFloat(document.getElementById('prodPrice').value);
+  const stock = parseInt(document.getElementById('prodStock').value) || 1;
 
-  if (!name || !price || price <= 0) {
-    showError('Ingresa nombre y precio válido');
+  if (!name || !price) {
+    alert('Completa nombre y precio');
     return;
   }
 
   try {
-    const { error } = await supabase
-      .from('products')
-      .insert([{
-        user_id: currentUser.id,
-        name,
-        price,
-        stock,
-        photo: productPhotoData || null
-      }]);
+    await db.from('products').insert([{
+      user_id: currentUser.id,
+      name,
+      price,
+      stock
+    }]);
 
-    if (error) throw error;
-
-    document.getElementById('productName').value = '';
-    document.getElementById('productPrice').value = '';
-    document.getElementById('productStock').value = '1';
-    document.getElementById('productPhoto').value = '';
-    document.getElementById('productPreview').style.display = 'none';
-    productPhotoData = '';
-
-    showSuccess('Producto agregado', 'productSuccess');
+    document.getElementById('prodName').value = '';
+    document.getElementById('prodPrice').value = '';
+    document.getElementById('prodStock').value = '1';
+    alert('Producto agregado');
     refreshUI();
   } catch (error) {
-    showError('Error: ' + error.message);
+    alert('Error: ' + error.message);
   }
 }
 
-async function deleteProduct(productId) {
-  if (!confirm('¿Eliminar este producto?')) return;
-
+async function deleteProduct(id) {
+  if (!confirm('¿Eliminar?')) return;
   try {
-    const { error } = await supabase
-      .from('products')
-      .delete()
-      .eq('id', productId);
-
-    if (error) throw error;
-    showSuccess('Producto eliminado', 'productSuccess');
+    await db.from('products').delete().eq('id', id);
     refreshUI();
   } catch (error) {
-    showError('Error: ' + error.message);
+    alert('Error: ' + error.message);
   }
 }
 
-// ===== SALE FUNCTIONS =====
-function calculateSaleTotal() {
-  const productSelect = document.getElementById('saleProduct');
-  const quantity = parseInt(document.getElementById('saleQuantity').value) || 1;
-  
-  const options = productSelect.querySelectorAll('option');
-  for (let opt of options) {
-    if (opt.value === productSelect.value && opt.dataset.price) {
-      const price = parseFloat(opt.dataset.price);
-      const total = (price * quantity).toFixed(2);
-      document.getElementById('saleTotal').textContent = '$' + total;
-      return;
-    }
-  }
-  document.getElementById('saleTotal').textContent = '$0';
-}
-
-async function confirmSale() {
+// ===== SALES =====
+async function addSale() {
   const productId = document.getElementById('saleProduct').value;
-  const quantity = parseInt(document.getElementById('saleQuantity').value) || 1;
-  const clientName = document.getElementById('saleClient').value;
+  const qty = parseInt(document.getElementById('saleQty').value) || 1;
   const method = document.getElementById('saleMethod').value;
 
   if (!productId) {
-    showError('Selecciona un producto');
+    alert('Selecciona un producto');
     return;
   }
 
   try {
-    const { data: product } = await supabase
-      .from('products')
-      .select('*')
-      .eq('id', productId)
-      .single();
+    const { data: prod } = await db.from('products').select('*').eq('id', productId).single();
 
-    if (!product) {
-      showError('Producto no encontrado');
+    if (!prod || prod.stock < qty) {
+      alert('Stock insuficiente');
       return;
     }
 
-    if (product.stock < quantity) {
-      showError('Stock insuficiente');
-      return;
-    }
+    const total = prod.price * qty;
 
-    const total = product.price * quantity;
+    await db.from('sales').insert([{
+      user_id: currentUser.id,
+      product_id: productId,
+      product_name: prod.name,
+      quantity: qty,
+      price: prod.price,
+      total,
+      method,
+      sale_date: new Date().toISOString().split('T')[0]
+    }]);
 
-    const { error: saleError } = await supabase
-      .from('sales')
-      .insert([{
-        user_id: currentUser.id,
-        product_id: productId,
-        product_name: product.name,
-        quantity,
-        price: product.price,
-        total,
-        client_name: clientName || null,
-        method,
-        sale_date: new Date().toISOString().split('T')[0]
-      }]);
-
-    if (saleError) throw saleError;
-
-    const newStock = product.stock - quantity;
-    const { error: updateError } = await supabase
-      .from('products')
-      .update({ stock: newStock })
-      .eq('id', productId);
-
-    if (updateError) throw updateError;
+    await db.from('products').update({ stock: prod.stock - qty }).eq('id', productId);
 
     document.getElementById('saleProduct').value = '';
-    document.getElementById('saleQuantity').value = '1';
-    document.getElementById('saleClient').value = '';
-    document.getElementById('saleTotal').textContent = '$0';
-
-    showSuccess('Venta registrada', 'saleSuccess');
+    document.getElementById('saleQty').value = '1';
+    alert('Venta registrada');
     refreshUI();
   } catch (error) {
-    showError('Error: ' + error.message);
+    alert('Error: ' + error.message);
   }
 }
 
-async function deleteSale(saleId) {
-  if (!confirm('¿Eliminar esta venta?')) return;
-
+async function deleteSale(id) {
+  if (!confirm('¿Eliminar?')) return;
   try {
-    const { error } = await supabase
-      .from('sales')
-      .delete()
-      .eq('id', saleId);
-
-    if (error) throw error;
-    showSuccess('Venta eliminada', 'saleSuccess');
+    await db.from('sales').delete().eq('id', id);
     refreshUI();
   } catch (error) {
-    showError('Error: ' + error.message);
+    alert('Error: ' + error.message);
   }
 }
 
-// ===== CLIENT FUNCTIONS =====
+// ===== CLIENTS =====
 async function addClient() {
   const name = document.getElementById('clientName').value.trim();
   const phone = document.getElementById('clientPhone').value.trim();
 
   if (!name || !phone) {
-    showError('Ingresa nombre y teléfono');
+    alert('Completa los datos');
     return;
   }
 
   try {
-    const { error } = await supabase
-      .from('clients')
-      .insert([{
-        user_id: currentUser.id,
-        name,
-        phone
-      }]);
-
-    if (error) throw error;
+    await db.from('clients').insert([{
+      user_id: currentUser.id,
+      name,
+      phone
+    }]);
 
     document.getElementById('clientName').value = '';
     document.getElementById('clientPhone').value = '';
-
-    showSuccess('Cliente guardado', 'clientSuccess');
+    alert('Cliente guardado');
     refreshUI();
   } catch (error) {
-    showError('Error: ' + error.message);
+    alert('Error: ' + error.message);
   }
 }
 
-async function deleteClient(clientId) {
-  if (!confirm('¿Eliminar este cliente?')) return;
-
+async function deleteClient(id) {
+  if (!confirm('¿Eliminar?')) return;
   try {
-    const { error } = await supabase
-      .from('clients')
-      .delete()
-      .eq('id', clientId);
-
-    if (error) throw error;
-    showSuccess('Cliente eliminado', 'clientSuccess');
+    await db.from('clients').delete().eq('id', id);
     refreshUI();
   } catch (error) {
-    showError('Error: ' + error.message);
+    alert('Error: ' + error.message);
   }
 }
 
@@ -905,134 +428,71 @@ function copyCatalogLink() {
   const link = document.getElementById('catalogLink');
   link.select();
   document.execCommand('copy');
-  showSuccess('Link copiado');
+  alert('Link copiado');
 }
 
-function shareViWhatsApp() {
+function shareViaWhatsApp() {
   const link = document.getElementById('catalogLink').value;
-  const message = encodeURIComponent('🎯 Mira mi catálogo: ' + link);
-  window.open('https://wa.me/?text=' + message, '_blank');
+  window.open('https://wa.me/?text=' + encodeURIComponent('🎯 Mira mi catálogo: ' + link), '_blank');
 }
 
-// ===== REFRESH UI =====
+// ===== REFRESH DATA =====
 async function refreshUI() {
-  document.getElementById('userInfo').textContent = currentUser.name + ' (' + currentUser.role + ')';
+  if (!db || !currentUser) return;
 
   try {
-    const { data: products } = await supabase
-      .from('products')
-      .select('*')
-      .eq('user_id', currentUser.id)
-      .order('created_at', { ascending: false });
-
-    const { data: sales } = await supabase
-      .from('sales')
-      .select('*')
-      .eq('user_id', currentUser.id)
-      .order('created_at', { ascending: false });
-
-    const { data: clients } = await supabase
-      .from('clients')
-      .select('*')
-      .eq('user_id', currentUser.id)
-      .order('created_at', { ascending: false });
+    const { data: prods } = await db.from('products').select('*').eq('user_id', currentUser.id);
+    const { data: sales } = await db.from('sales').select('*').eq('user_id', currentUser.id);
+    const { data: clients } = await db.from('clients').select('*').eq('user_id', currentUser.id);
 
     // Stats
     const today = new Date().toISOString().split('T')[0];
-    const todaySales = sales
-      .filter(s => s.sale_date === today)
-      .reduce((sum, s) => sum + (s.total || 0), 0);
-    const monthSales = sales.reduce((sum, s) => sum + (s.total || 0), 0);
+    const todayTotal = sales.filter(s => s.sale_date === today).reduce((sum, s) => sum + (s.total || 0), 0);
+    const monthTotal = sales.reduce((sum, s) => sum + (s.total || 0), 0);
 
-    document.getElementById('statToday').textContent = '$' + todaySales.toFixed(2);
-    document.getElementById('statMonth').textContent = '$' + monthSales.toFixed(2);
-    document.getElementById('statProducts').textContent = products ? products.length : 0;
+    document.getElementById('statToday').textContent = '$' + todayTotal.toFixed(2);
+    document.getElementById('statMonth').textContent = '$' + monthTotal.toFixed(2);
+    document.getElementById('statProducts').textContent = prods ? prods.length : 0;
     document.getElementById('statClients').textContent = clients ? clients.length : 0;
 
     // Products table
-    let productHTML = '<thead><tr><th>Foto</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Acción</th></tr></thead><tbody>';
-    if (products && products.length > 0) {
-      products.forEach(p => {
-        const stockBadge = p.stock > 0 ? 'badgeGreen' : 'badgeRed';
-        productHTML += `<tr><td>${p.photo ? '<img src="' + p.photo + '" class="imgSmall">' : '-'}</td><td>${p.name}</td><td>$${p.price.toFixed(2)}</td><td><span class="badge ${stockBadge}">${p.stock}</span></td><td><button class="btnSmall" onclick="deleteProduct('${p.id}')">🗑️</button></td></tr>`;
-      });
-    } else {
-      productHTML += '<tr><td colspan="5" style="text-align:center;color:#999">Sin productos</td></tr>';
-    }
-    productHTML += '</tbody>';
-    document.getElementById('productTable').innerHTML = productHTML;
+    let html = '<thead><tr><th>Nombre</th><th>Precio</th><th>Stock</th><th>Acción</th></tr></thead><tbody>';
+    if (prods) prods.forEach(p => {
+      const badge = p.stock > 0 ? 'badgeGreen' : 'badgeRed';
+      html += `<tr><td>${p.name}</td><td>$${p.price.toFixed(2)}</td><td><span class="badge ${badge}">${p.stock}</span></td><td><button class="btnAction" onclick="deleteProduct('${p.id}')">🗑️</button></td></tr>`;
+    });
+    html += '</tbody>';
+    document.getElementById('productTable').innerHTML = html;
 
     // Sales table
-    let salesHTML = '<thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Cliente</th><th>Método</th><th>Acción</th></tr></thead><tbody>';
-    if (sales && sales.length > 0) {
-      sales.forEach(s => {
-        salesHTML += `<tr><td>${s.sale_date}</td><td>${s.product_name}</td><td>${s.quantity}</td><td>$${s.total.toFixed(2)}</td><td>${s.client_name || '-'}</td><td>${s.method}</td><td><button class="btnSmall" onclick="deleteSale('${s.id}')">🗑️</button></td></tr>`;
-      });
-    } else {
-      salesHTML += '<tr><td colspan="7" style="text-align:center;color:#999">Sin ventas</td></tr>';
-    }
-    salesHTML += '</tbody>';
-    document.getElementById('saleTable').innerHTML = salesHTML;
+    let shtml = '<thead><tr><th>Fecha</th><th>Producto</th><th>Cant</th><th>Total</th><th>Método</th><th>Acción</th></tr></thead><tbody>';
+    if (sales) sales.forEach(s => {
+      shtml += `<tr><td>${s.sale_date}</td><td>${s.product_name}</td><td>${s.quantity}</td><td>$${s.total.toFixed(2)}</td><td>${s.method}</td><td><button class="btnAction" onclick="deleteSale('${s.id}')">🗑️</button></td></tr>`;
+    });
+    shtml += '</tbody>';
+    document.getElementById('saleTable').innerHTML = shtml;
 
     // Clients table
-    let clientHTML = '<thead><tr><th>Nombre</th><th>Teléfono</th><th>Acción</th></tr></thead><tbody>';
-    if (clients && clients.length > 0) {
-      clients.forEach(c => {
-        clientHTML += `<tr><td>${c.name}</td><td>${c.phone}</td><td><button class="btnSmall" onclick="deleteClient('${c.id}')">🗑️</button></td></tr>`;
-      });
-    } else {
-      clientHTML += '<tr><td colspan="3" style="text-align:center;color:#999">Sin clientes</td></tr>';
-    }
-    clientHTML += '</tbody>';
-    document.getElementById('clientTable').innerHTML = clientHTML;
+    let chtml = '<thead><tr><th>Nombre</th><th>Teléfono</th><th>Acción</th></tr></thead><tbody>';
+    if (clients) clients.forEach(c => {
+      chtml += `<tr><td>${c.name}</td><td>${c.phone}</td><td><button class="btnAction" onclick="deleteClient('${c.id}')">🗑️</button></td></tr>`;
+    });
+    chtml += '</tbody>';
+    document.getElementById('clientTable').innerHTML = chtml;
 
-    // Vendors (Dueño)
-    if (currentUser.role === 'Dueno') {
-      const { data: vendors } = await supabase
-        .from('users')
-        .select('*')
-        .eq('role', 'Vendedor')
-        .order('created_at', { ascending: false });
+    // Product select
+    let popts = '<option>-- Selecciona producto --</option>';
+    if (prods) prods.forEach(p => {
+      if (p.stock > 0) popts += `<option value="${p.id}">${p.name} ($${p.price.toFixed(2)})</option>`;
+    });
+    document.getElementById('saleProduct').innerHTML = popts;
 
-      let vendorHTML = '<thead><tr><th>Nombre</th><th>Email</th><th>Negocio</th><th>Acción</th></tr></thead><tbody>';
-      if (vendors && vendors.length > 0) {
-        vendors.forEach(v => {
-          vendorHTML += `<tr><td>${v.name}</td><td>${v.email}</td><td>${v.business_name}</td><td><button class="btnSmall" onclick="deleteVendor('${v.id}')">🗑️</button></td></tr>`;
-        });
-      } else {
-        vendorHTML += '<tr><td colspan="4" style="text-align:center;color:#999">Sin vendedores</td></tr>';
-      }
-      vendorHTML += '</tbody>';
-      document.getElementById('vendorTable').innerHTML = vendorHTML;
-    }
-
-    // Product selects
-    let productOptions = '<option value="">-- Selecciona producto --</option>';
-    if (products && products.length > 0) {
-      products.forEach(p => {
-        if (p.stock > 0) {
-          productOptions += `<option value="${p.id}" data-price="${p.price}">${p.name} ($${p.price.toFixed(2)}) Stock:${p.stock}</option>`;
-        }
-      });
-    }
-    document.getElementById('saleProduct').innerHTML = productOptions;
-
-    // Client selects
-    let clientOptions = '<option value="">-- Selecciona cliente --</option>';
-    if (clients && clients.length > 0) {
-      clients.forEach(c => {
-        clientOptions += `<option value="${c.name}">${c.name}</option>`;
-      });
-    }
-    document.getElementById('saleClient').innerHTML = clientOptions;
-
-    // Catalog share link
+    // Catalog link
     const catalogUrl = window.location.href.split('?')[0] + '?vendor=' + encodeURIComponent(currentUser.email);
     document.getElementById('catalogLink').value = catalogUrl;
 
   } catch (error) {
     console.error('Error:', error);
-    showError('Error al cargar datos: ' + error.message);
   }
 }
 </script>
