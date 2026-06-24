@@ -225,14 +225,23 @@ table td{padding:8px;border-bottom:1px solid #eee}
 const SUPABASE_URL = 'https://uccnvvidayqcitxcqtil.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_VHu30FNRuQisScJTVNd_kQ_BKWKCfh9';
 
-let db = null;
+let db;
 let currentUser = null;
 
-window.addEventListener('load', function() {
-  if (window.supabase) {
+// Inicializar Supabase de forma robusta
+function initSupabase() {
+  if (typeof window.supabase !== 'undefined') {
     db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    return true;
   }
-});
+  return false;
+}
+
+// Intentar inicializar inmediatamente
+if (!initSupabase()) {
+  // Si no está disponible, reintentar cuando esté listo
+  setTimeout(initSupabase, 500);
+}
 
 // ===== AUTH =====
 async function doLogin() {
